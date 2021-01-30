@@ -34,13 +34,6 @@
                 "path": "./syntax/stnescript-lang.grammar.json"
             }
         ],
-        "themes": [
-            {
-                "label": "STNE Syntax",
-                "uiTheme": "vs-dark",
-                "path": "./theme/stne.theme.json"
-            }
-        ],
         "iconThemes": [
             {
                 "id": "id",

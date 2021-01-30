@@ -51,9 +51,8 @@ export function activate() {
             properties.push(new Property(property.name, property.type));*/
 
         let members: Array<Member> = [];
-        for (let member of type.methods) {
+        for (let member of type.members)
             members.push(new Member(member.name, member.membertype, member.type, member.static));
-        }
         typesOfStne.push(new Type(type.name, members));
     }
 
@@ -85,16 +84,18 @@ function CompletitionItemsForVariables(searchtext: string, searchterm: string): 
         return undefined;
     let results: Array<vscode.CompletionItem> = [];
     for (let m of stneType.members) {
-        if (m.membertype == "Property") {
-            let item = new vscode.CompletionItem(m.name, vscode.CompletionItemKind.Property);
-            item.detail = "Test";
-            results.push(item)
+        let item: vscode.CompletionItem;
+        if (m.membertype == "Property" || m.membertype == "Field") {
+            item = new vscode.CompletionItem(m.name, vscode.CompletionItemKind.Property);
+            item.detail = "type: " + m.type;
         }
         else {
-            let item = new vscode.CompletionItem(m.name, vscode.CompletionItemKind.Method);
-            item.detail = "Test";
-            results.push(item)
+            item = new vscode.CompletionItem(m.name, vscode.CompletionItemKind.Method);
+            item.detail = "returns: " + m.type;
         }
+        if (m.statisch)
+            item.detail = item.detail + " (static)";
+        results.push(item)
     }
     return results;
 }

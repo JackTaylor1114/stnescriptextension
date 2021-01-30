@@ -6,10 +6,6 @@ Language Grammer:
     Base Grammer: TypeScriptReact Grammar File
     Link: https://github.com/Microsoft/TypeScript-TmLanguage/blob/master/TypeScriptReact.tmLanguage"
 
-Editor Theme: 
-    Base Theme: Visual Studio Dark Plus
-    Link: https://github.com/microsoft/vscode/tree/master/extensions/theme-defaults/themes
-
 Language Formatter: 
     Formatter: js-beautify
     Link: https://github.com/beautify-web/js-beautify
