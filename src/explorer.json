@@ -1,0 +1,31 @@
+{
+    "types": [
+        {
+            "name": "CMyShip",
+            "properties": [
+                {
+                    "name": "CoPilot",
+                    "type": "CUser"
+
+                }, 
+                {
+                    "name": "Hull",
+                    "type": "Double"
+
+                }
+            ],
+            "methods": [
+                {
+                    "name": "IsHidden",
+                    "returntype": "Boolean"
+
+                }, 
+                {
+                    "name": "GetNameHtml",
+                    "returntype": "CHtmlControl"
+
+                }
+            ]
+        }
+    ]
+}
