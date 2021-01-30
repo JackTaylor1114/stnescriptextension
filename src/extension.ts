@@ -1,62 +1,27 @@
 'use strict';
 
-import { cpuUsage } from 'process';
-//Benötige Module importieren
 import * as vscode from 'vscode';
-let beautify_js = require('js-beautify');
 import * as data from './stne.json';
 
-//Globale Variablen
-let typesOfStne: Array<Type> = [];
+let beautify_js = require('js-beautify');
+let types: Array<Type> = [];
 
-//Aktivierungsfunktion für VSC-Erweiterungen
 export function activate() {
 
-    //Formatter für STNE-Script
+    LoadTypesFromJSON();
+
     vscode.languages.registerDocumentFormattingEditProvider('stnescript-lang', {
         provideDocumentFormattingEdits(document: vscode.TextDocument): vscode.TextEdit[] {
-
-            //Inhalt des   Dokumentes holen
             let documentText = document.getText();
-
-            //Gesamte Dokumentenrange ermitteln
             let documentStart: vscode.Position = document.lineAt(0).range.start;
             let documentEnd: vscode.Position = document.lineAt(document.lineCount - 1).range.end;
             let documentFullRange: vscode.Range = new vscode.Range(documentStart, documentEnd);
-
-            //Text formatieren
             let documentFormatted = beautify_js(documentText, { indent_size: 4, space_in_empty_paren: true });
-
-            //Nachbearbeitung wegen Unterschieden JavaScript und STNE
             documentFormatted = documentFormatted.replace("< >", "<>");
-
-            //Ergebnis schreiben
             return [vscode.TextEdit.replace(documentFullRange, documentFormatted)];
         }
     });
 
-    //Über alle Typen im Objektexplorer iterieren
-    for (let type of data.types) {
-
-        /** 
-
-        //Alle Methodennamen für den Typ ablegen
-        let methods: Array<Method> = [];
-        for (let method of type.methods)
-            methods.push(new Method(method.name, method.type));
-
-        //Alle Property-Namem für den Typ ablegen
-        let properties: Array<Property> = [];
-        for (let property of type.properties)
-            properties.push(new Property(property.name, property.type));*/
-
-        let members: Array<Member> = [];
-        for (let member of type.members)
-            members.push(new Member(member.name, member.membertype, member.type, member.static));
-        typesOfStne.push(new Type(type.name, members));
-    }
-
-    //Vorschlag-Provider für STNE Script
     vscode.languages.registerCompletionItemProvider('stnescript-lang', {
         provideCompletionItems(document: vscode.TextDocument, position: vscode.Position) {
             const linePrefix = document.lineAt(position).text.substr(0, position.character);
@@ -64,40 +29,91 @@ export function activate() {
             let wordsOfLine = linePrefix.split(' ');
             let lastWord = wordsOfLine[wordsOfLine.length - 1];
             lastWord = lastWord.slice(0, -1);
-            return CompletitionItemsForVariables(docText, lastWord);
+            return GetCompletitionItemsForType(GetTypeForSuspectedVar(docText, lastWord));
         }
     },
         '.'
     );
+
+    vscode.languages.registerCompletionItemProvider('stnescript-lang', {
+        provideCompletionItems(document: vscode.TextDocument, position: vscode.Position) {
+            const linePrefix = document.lineAt(position).text.substr(0, position.character);
+            let wordsOfLine = linePrefix.split(' ');
+            let word = wordsOfLine[wordsOfLine.length - 2];
+            if (word == "New" || word == "As")
+                return GetTypeCompletitionItems();
+            return undefined;
+        }
+    },
+        ' '
+    );
 }
 
-function CompletitionItemsForVariables(searchtext: string, searchterm: string): Array<vscode.CompletionItem> {
-    const regex = new RegExp("Var\\s(" + searchterm + ")\\sAs\\s([Nn]ew\\s)?([a-zA-Z]*)");
-    let match = searchtext.match(regex);
-    if (match == null || match == undefined)
+function LoadTypesFromJSON() {
+    for (let type of data.types) {
+        let members: Array<Member> = [];
+        for (let member of type.members) {
+            let parameters: Array<Param> = [];
+            if (!IsNull(member.params)) {
+                for (let param of member.params)
+                    parameters.push(new Param(param.name, param.type));
+            }
+            members.push(new Member(member.name, member.membertype, parameters, member.type, member.static));
+        }
+        types.push(new Type(type.name, members));
+    }
+}
+
+function GetTypeForSuspectedVar(text: string, term: string): Type {
+    const regex = new RegExp("Var\\s(" + term + ")\\sAs\\s([Nn]ew\\s)?([a-zA-Z]*)");
+    let match = text.match(regex);
+    if (IsNull(match))
         return undefined;
-    let typeName = match[3];
-    if (typeName == null || typeName == undefined)
+    let name = match[3];
+    if (IsNull(name))
         return undefined;
-    let stneType = typesOfStne.find(t => t.name == typeName);
-    if (stneType == null || stneType == undefined)
+    let type = types.find(t => t.name == name);
+    if (IsNull(type))
         return undefined;
-    let results: Array<vscode.CompletionItem> = [];
-    for (let m of stneType.members) {
+    return type;
+}
+
+function GetTypeCompletitionItems(): Array<vscode.CompletionItem> {
+    let items: Array<vscode.CompletionItem> = [];
+    for (let type of types)
+        items.push(new vscode.CompletionItem(type.name, vscode.CompletionItemKind.Class))
+    return items;
+}
+
+function GetCompletitionItemsForType(type: Type): Array<vscode.CompletionItem> {
+    let items: Array<vscode.CompletionItem> = [];
+    for (let member of type.members) {
         let item: vscode.CompletionItem;
-        if (m.membertype == "Property" || m.membertype == "Field") {
-            item = new vscode.CompletionItem(m.name, vscode.CompletionItemKind.Property);
-            item.detail = "type: " + m.type;
+        if (member.membertype == "Property" || member.membertype == "Field") {
+            item = new vscode.CompletionItem(member.name, vscode.CompletionItemKind.Property);
+            item.detail = member.name + ":" + member.type;
         }
         else {
-            item = new vscode.CompletionItem(m.name, vscode.CompletionItemKind.Method);
-            item.detail = "returns: " + m.type;
+            item = new vscode.CompletionItem(member.name, vscode.CompletionItemKind.Method);
+            item.detail = member.name + "(";
+            if (member.params.length > 0) {
+                for (let param of member.params)
+                    item.detail = item.detail + param.name + ":" + param.type + ",";
+                item.detail = item.detail.slice(0, -1);
+            }
+            item.detail = item.detail + ")";
         }
-        if (m.statisch)
+        if (member.stat)
             item.detail = item.detail + " (static)";
-        results.push(item)
+        items.push(item)
     }
-    return results;
+    return items;
+}
+
+function IsNull(o: any): boolean {
+    if (o == null || o == undefined)
+        return true;
+    return false;
 }
 
 class Type {
@@ -105,5 +121,9 @@ class Type {
 }
 
 class Member {
-    constructor(public name: string, public membertype: string, public type: string, public statisch: boolean) { }
+    constructor(public name: string, public membertype: string, public params: Array<Param>, public type: string, public stat: boolean) { }
+}
+
+class Param {
+    constructor(public name: string, public type: string) { }
 }
