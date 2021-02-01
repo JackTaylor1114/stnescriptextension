@@ -5,11 +5,21 @@ import * as data from './stne.json';
 
 let beautify_js = require('js-beautify');
 let types: Array<Type> = [];
+let editor;
+const errormarker = vscode.window.createTextEditorDecorationType({
+    overviewRulerColor: 'red',
+    overviewRulerLane: vscode.OverviewRulerLane.Right,
+    textDecoration: 'wavy underline red'
+});
 
-export function activate() {
+/**
+ * Main function that is called when the extension is started
+ */
+export function activate(context: vscode.ExtensionContext) {
 
     LoadTypesFromJSON();
 
+    //Register DocumentFormattingEditProvider
     vscode.languages.registerDocumentFormattingEditProvider('stnescript-lang', {
         provideDocumentFormattingEdits(document: vscode.TextDocument): vscode.TextEdit[] {
             let documentText = document.getText();
@@ -22,6 +32,7 @@ export function activate() {
         }
     });
 
+    //Register CompletitionItemsProvider when user types a '.'
     vscode.languages.registerCompletionItemProvider('stnescript-lang', {
         provideCompletionItems(document: vscode.TextDocument, position: vscode.Position) {
             const linePrefix = document.lineAt(position).text.substr(0, position.character);
@@ -35,6 +46,7 @@ export function activate() {
         '.'
     );
 
+    //Register CompletitionItemsProvider when user types a ' '
     vscode.languages.registerCompletionItemProvider('stnescript-lang', {
         provideCompletionItems(document: vscode.TextDocument, position: vscode.Position) {
             const linePrefix = document.lineAt(position).text.substr(0, position.character);
@@ -47,8 +59,17 @@ export function activate() {
     },
         ' '
     );
+
+    editor = vscode.window.activeTextEditor;
+
+    vscode.workspace.onDidChangeTextDocument(e => {
+        checkForErrors();
+    }, null, context.subscriptions);
 }
 
+/**
+ * Read available types from a JSON file and store them
+ */
 function LoadTypesFromJSON() {
     for (let type of data.types) {
         let members: Array<Member> = [];
@@ -64,6 +85,9 @@ function LoadTypesFromJSON() {
     }
 }
 
+/**
+ * Returns the name of a type for a passed variable name
+ */
 function GetTypeForSuspectedVar(text: string, term: string): Type {
     const regex = new RegExp("Var\\s(" + term + ")\\sAs\\s([Nn]ew\\s)?([a-zA-Z]*)");
     let match = text.match(regex);
@@ -78,6 +102,9 @@ function GetTypeForSuspectedVar(text: string, term: string): Type {
     return type;
 }
 
+/**
+ * Returns all available types as completition items
+ */
 function GetTypeCompletitionItems(): Array<vscode.CompletionItem> {
     let items: Array<vscode.CompletionItem> = [];
     for (let type of types)
@@ -85,6 +112,9 @@ function GetTypeCompletitionItems(): Array<vscode.CompletionItem> {
     return items;
 }
 
+/**
+ * Returns completition items for a type (methods/properties)
+ */
 function GetCompletitionItemsForType(type: Type): Array<vscode.CompletionItem> {
     let items: Array<vscode.CompletionItem> = [];
     for (let member of type.members) {
@@ -110,20 +140,67 @@ function GetCompletitionItemsForType(type: Type): Array<vscode.CompletionItem> {
     return items;
 }
 
+/**
+ * Checks for various erros and decorates them in the text editor
+ */
+function checkForErrors() {
+    let text = vscode.window.activeTextEditor.document.getText();
+    let errordecorations: vscode.DecorationOptions[] = [];
+    checkForDeclarationsExample(text, errordecorations);
+    editor.setDecorations(errormarker, errordecorations);
+    return errordecorations;
+}
+
+/**
+ * Searches for variable decorations
+ */
+function checkForDeclarationsExample(text: string, errordecorations: vscode.DecorationOptions[]) {
+    const regex = new RegExp("Var\\s[a-zA-Z]*\\sAs\\s[Nn]ew\\s?[a-zA-Z]*");
+    let firstLineNumber = null;
+    let activeEditor = vscode.window.activeTextEditor;
+    let match = text.match(regex);
+    while (match) {
+        if (firstLineNumber == null) {
+            firstLineNumber = activeEditor.document.positionAt(match.index).line + 1;
+        }
+        const startPos = activeEditor.document.positionAt(match.index);
+        const endPos = activeEditor.document.positionAt(match.index + match[0].length);
+        const decoration = {
+            'range': new vscode.Range(startPos, endPos),
+            'hoverMessage': "This is a declaration!"
+        };
+        errordecorations.push(decoration);
+        text = text.replace(match[0],"");
+        match = text.match(regex);
+    }
+}
+
+/**
+ * Checks if an object is null or undefined
+ */
 function IsNull(o: any): boolean {
     if (o == null || o == undefined)
         return true;
     return false;
 }
 
+/**
+ * Represents a type
+ */
 class Type {
     constructor(public name: string, public members: Array<Member>) { }
 }
 
+/**
+ * Represents a type's member
+ */
 class Member {
     constructor(public name: string, public membertype: string, public params: Array<Param>, public type: string, public stat: boolean) { }
 }
 
+/**
+ * Represents a parameter of a function
+ */
 class Param {
     constructor(public name: string, public type: string) { }
 }
