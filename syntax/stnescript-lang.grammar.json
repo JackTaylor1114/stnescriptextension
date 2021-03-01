@@ -2222,6 +2222,11 @@
                         "(?x)(?<!\\.|\\$)\\b(WriteLine)(?=\\s*\\()"
                 },
                 {
+                    "name": "support.function.conversion.stne",
+                    "match":
+                        "(?x)(?<!\\.|\\$)\\b(CStr|CInt|CBool|CDbl|CShort|CByte|CDate|CLng)(?=\\s*\\()"
+                },
+                {
                     "match":
                         "(?x)(?<!\\.|\\$)\\b(Math)(?:\\s*(\\.)\\s*(?:\n  (Abs|Acos|Asin|Atan|Atan2|BigMul|Ceiling|Cos|Cosh|Exp|Floor|IEEERemainder|Log|Log10|Max|Min|Pow|Round|Sign|Sin|Sinh|Sqrt|Tan|Tanh|Truncated)\n  |\n  (E|PI)))?\\b(?!\\$)",
                     "captures": {
