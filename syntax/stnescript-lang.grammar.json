@@ -2312,6 +2312,9 @@
                     "include": "#null-literal"
                 },
                 {
+                    "include": "#nothing-literal"
+                },
+                {
                     "include": "#undefined-literal"
                 },
                 {
@@ -2409,6 +2412,10 @@
         "null-literal": {
             "name": "constant.language.null.stne",
             "match": "(?<!\\.|\\$)\\bnull\\b(?!\\$)"
+        },
+        "nothing-literal": {
+            "name": "constant.language.nothing.stne",
+            "match": "(?i)(?<!\\.|\\$)\\bnothing\\b(?!\\$)"
         },
         "this-literal": {
             "name": "variable.language.this.stne",
