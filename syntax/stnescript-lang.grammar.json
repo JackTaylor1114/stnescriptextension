@@ -180,6 +180,10 @@
             ]
         },
         "assignment": {
+            "name": "meta.assignment.stne",
+            "begin":
+                "(?ix)(?!\\s*(To|In|Step))(?=[_$[:alpha:]][_$[:alnum:]]*\\s*=)",
+            "end": "(?i)(?=[;\\)}]|(\\s+(In|To|Step)\\s+))",
             "patterns": [
                 {
                     "include": "#var-single-variable"
@@ -254,7 +258,7 @@
                             "name": "meta.definition.variable.stne entity.name.function.stne"
                         }
                     },
-                    "end": "(?=$|^|[;,=}]|(\\s+(of|in)\\s+))",
+                    "end": "(?i)(?=$|^|[;,=}]|(\\s+(of|in|to)\\s+))",
                     "patterns": [
                         {
                             "include": "#var-single-variable-type-annotation"
@@ -704,7 +708,7 @@
                             "name": "keyword.operator.assignment.stne"
                         }
                     },
-                    "end": "(?=$|^|[,);}\\]])",
+                    "end": "(?=$|^|[,);}\\]]|(\\s+(In|To|Step)\\s+))",
                     "patterns": [
                         {
                             "include": "#expression"
@@ -1426,33 +1430,76 @@
             ]
         },
         "for-loop": {
-            "begin": "(?i)(?<!\\.|\\$)\\b(for)(?:\\s+(await))?\\s*(\\()",
-            "beginCaptures": {
-                "1": {
-                    "name": "keyword.control.loop.stne"
-                },
-                "2": {
-                    "name": "keyword.control.loop.stne"
-                },
-                "3": {
-                    "name": "meta.brace.round.stne"
-                }
-            },
-            "end": "\\)",
-            "endCaptures": {
-                "0": {
-                    "name": "meta.brace.round.stne"
-                }
-            },
             "patterns": [
                 {
-                    "include": "#var-expr"
+                    "name": "meta.loop.for.stne",
+                    "begin": "(?i)(?<!\\.|\\$)\\b(For)?\\s*(\\()\\s*(?!Each)",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "keyword.control.loop.stne"
+                        },
+                        "2": {
+                            "name": "meta.brace.round.stne"
+                        }
+                    },
+                    "end": "\\)",
+                    "endCaptures": {
+                        "0": {
+                            "name": "meta.brace.round.stne"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "name": "keyword.operator.expression.step.stne",
+                            "match": "(?i)(?<=\\s)Step(?:\\s)"
+                        },
+                        {
+                            "name": "keyword.operator.expression.to.stne",
+                            "match": "(?i)(?<=\\s)To(?:\\s)"
+                        },
+                        {
+                            "include": "#assignment"
+                        },
+                        {
+                            "include": "#var-expr"
+                        },
+                        {
+                            "include": "#expression"
+                        }
+                    ]
                 },
                 {
-                    "include": "#expression"
-                },
-                {
-                    "include": "#punctuation-semicolon"
+                    "name": "meta.loop.foreach.stne",
+                    "begin": "(?i)(?<!\\.|\\$)\\b(For)?\\s*(\\()\\s*(Each)",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "keyword.control.loop.stne"
+                        },
+                        "2": {
+                            "name": "meta.brace.round.stne"
+                        },
+                        "3": {
+                            "name": "keyword.operator.expression.each.stne"
+                        }
+                    },
+                    "end": "\\)",
+                    "endCaptures": {
+                        "0": {
+                            "name": "meta.brace.round.stne"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "name": "keyword.operator.expression.in.stne",
+                            "match": "(?i)(?<=\\s)In(?:\\s)"
+                        },
+                        {
+                            "include": "#var-expr"
+                        },
+                        {
+                            "include": "#expression"
+                        }
+                    ]
                 }
             ]
         },
