@@ -54,6 +54,9 @@
                     "include": "#decl-block"
                 },
                 {
+                    "include": "#assignment"
+                },
+                {
                     "include": "#expression"
                 },
                 {
@@ -176,10 +179,20 @@
                 }
             ]
         },
+        "assignment": {
+            "patterns": [
+                {
+                    "include": "#var-single-variable"
+                },
+                {
+                    "include": "#variable-initializer"
+                }
+            ]
+        },
         "var-expr": {
             "name": "meta.var.expr.stne",
             "begin":
-                "(?<!\\.|\\$)(?:(\\bexport)\\s+)?\\b(Var|var|let|const(?!\\s+enum\\b))\\b(?!\\$|\\.)",
+                "(?i)(?<!\\.|\\$)(?:(\\bexport)\\s+)?\\b(Var(?!\\s+enum\\b))\\b(?!\\$|\\.)",
             "beginCaptures": {
                 "1": {
                     "name": "keyword.control.export.stne"
