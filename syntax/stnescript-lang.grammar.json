@@ -118,7 +118,7 @@
                 },
                 {
                     "name": "keyword.control.loop.stne",
-                    "match": "(?i)(?<!\\.|\\$)\\b(break|continue|do|goto|while)\\b(?!\\$|\\.)"
+                    "match": "(?i)(?<!\\.|\\$)\\b(exit|do|while)\\b(?!\\$|\\.)"
                 },
                 {
                     "name": "keyword.control.flow.stne",
