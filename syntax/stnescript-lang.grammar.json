@@ -2315,9 +2315,6 @@
                     "include": "#nothing-literal"
                 },
                 {
-                    "include": "#undefined-literal"
-                },
-                {
                     "include": "#array-literal"
                 },
                 {
@@ -2421,10 +2418,6 @@
         "super-literal": {
             "name": "variable.language.super.stne",
             "match": "(?i)(?<!\\.|\\$)\\bsuper\\b(?!\\$)"
-        },
-        "undefined-literal": {
-            "name": "constant.language.undefined.stne",
-            "match": "(?i)(?<!\\.|\\$)\\bundefined\\b(?!\\$)"
         },
         "support-objects": {
             "patterns": [
