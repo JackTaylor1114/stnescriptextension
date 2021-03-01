@@ -2238,21 +2238,6 @@
                             "name": "support.constant.property.math.stne"
                         }
                     }
-                },
-                {
-                    "match":
-                        "(?x) (\\.) \\s* (?:\n  (constructor|length|prototype|__proto__)\n  |\n  (EPSILON|MAX_SAFE_INTEGER|MAX_VALUE|MIN_SAFE_INTEGER|MIN_VALUE|NEGATIVE_INFINITY|POSITIVE_INFINITY))\\b(?!\\$)",
-                    "captures": {
-                        "1": {
-                            "name": "punctuation.accessor.stne"
-                        },
-                        "2": {
-                            "name": "support.variable.property.stne"
-                        },
-                        "3": {
-                            "name": "support.constant.stne"
-                        }
-                    }
                 }
             ]
         },
