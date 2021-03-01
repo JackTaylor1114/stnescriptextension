@@ -114,35 +114,35 @@
                 },
                 {
                     "name": "keyword.control.trycatch.stne",
-                    "match": "(?<!\\.|\\$)\\b(catch|finally|throw|try)\\b(?!\\$|\\.)"
+                    "match": "(?i)(?<!\\.|\\$)\\b(catch|finally|throw|try)\\b(?!\\$|\\.)"
                 },
                 {
                     "name": "keyword.control.loop.stne",
-                    "match": "(?<!\\.|\\$)\\b(break|continue|do|goto|while)\\b(?!\\$|\\.)"
+                    "match": "(?i)(?<!\\.|\\$)\\b(break|continue|do|goto|while)\\b(?!\\$|\\.)"
                 },
                 {
                     "name": "keyword.control.flow.stne",
-                    "match": "(?<!\\.|\\$)\\b(return)\\b(?!\\$|\\.)"
+                    "match": "(?i)(?<!\\.|\\$)\\b(return)\\b(?!\\$|\\.)"
                 },
                 {
                     "name": "keyword.control.switch.stne",
-                    "match": "(?<!\\.|\\$)\\b(case|default|switch)\\b(?!\\$|\\.)"
+                    "match": "(?i)(?<!\\.|\\$)\\b(case|default|switch)\\b(?!\\$|\\.)"
                 },
                 {
                     "name": "keyword.control.conditional.stne",
-                    "match": "(?<!\\.|\\$)\\b(else|if)\\b(?!\\$|\\.)"
+                    "match": "(?i)(?<!\\.|\\$)\\b(else|if)\\b(?!\\$|\\.)"
                 },
                 {
                     "name": "keyword.control.with.stne",
-                    "match": "(?<!\\.|\\$)\\b(with)\\b(?!\\$|\\.)"
+                    "match": "(?i)(?<!\\.|\\$)\\b(with)\\b(?!\\$|\\.)"
                 },
                 {
                     "name": "keyword.other.debugger.stne",
-                    "match": "(?<!\\.|\\$)\\b(debugger)\\b(?!\\$|\\.)"
+                    "match": "(?i)(?<!\\.|\\$)\\b(debugger)\\b(?!\\$|\\.)"
                 },
                 {
                     "name": "storage.modifier.stne",
-                    "match": "(?<!\\.|\\$)\\b(declare)\\b(?!\\$|\\.)"
+                    "match": "(?i)(?<!\\.|\\$)\\b(declare)\\b(?!\\$|\\.)"
                 }
             ]
         },
@@ -1788,7 +1788,7 @@
         },
         "switch-statement": {
             "name": "switch-statement.expr.stne",
-            "begin": "(?<!\\.|\\$)(?=\\bswitch\\s*\\()",
+            "begin": "(?i)(?<!\\.|\\$)(?=\\bswitch\\s*\\()",
             "end": "\\}",
             "endCaptures": {
                 "0": {
@@ -1857,7 +1857,7 @@
             ]
         },
         "for-loop": {
-            "begin": "(?<!\\.|\\$)\\b(for)(?:\\s+(await))?\\s*(\\()",
+            "begin": "(?i)(?<!\\.|\\$)\\b(for)(?:\\s+(await))?\\s*(\\()",
             "beginCaptures": {
                 "1": {
                     "name": "keyword.control.loop.stne"
