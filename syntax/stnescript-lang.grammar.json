@@ -142,9 +142,6 @@
                     "include": "#function-expression"
                 },
                 {
-                    "include": "#class-expression"
-                },
-                {
                     "include": "#arrow-function"
                 },
                 {
@@ -1145,28 +1142,7 @@
         "class-declaration": {
             "name": "meta.class.stne",
             "begin":
-                "(?<!\\.|\\$)\\b(?:(export)\\s+)?\\b(?:(abstract)\\s+)?\\b(class)\\b(?=\\s+|/[/*])",
-            "beginCaptures": {
-                "1": {
-                    "name": "keyword.control.export.stne"
-                },
-                "2": {
-                    "name": "storage.modifier.stne"
-                },
-                "3": {
-                    "name": "storage.type.class.stne"
-                }
-            },
-            "end": "(?<=\\})",
-            "patterns": [
-                {
-                    "include": "#class-declaration-or-expression-patterns"
-                }
-            ]
-        },
-        "class-expression": {
-            "name": "meta.class.stne",
-            "begin": "(?i)(?<!\\.|\\$)\\b(class)\\b(?=\\s+|[<{]|/[/*])",
+                "(?i)(?<!\\.|\\$)\\b(class)\\b(?=\\s+|/[/*])",
             "beginCaptures": {
                 "1": {
                     "name": "storage.type.class.stne"
@@ -1175,11 +1151,11 @@
             "end": "(?<=\\})",
             "patterns": [
                 {
-                    "include": "#class-declaration-or-expression-patterns"
+                    "include": "#class-declaration-patterns"
                 }
             ]
         },
-        "class-declaration-or-expression-patterns": {
+        "class-declaration-patterns": {
             "patterns": [
                 {
                     "include": "#comment"
