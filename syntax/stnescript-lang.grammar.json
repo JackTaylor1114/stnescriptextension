@@ -2177,10 +2177,6 @@
         "support-objects": {
             "patterns": [
                 {
-                    "name": "variable.language.arguments.stne",
-                    "match": "(?<!\\.|\\$)\\b(arguments)\\b(?!\\$)"
-                },
-                {
                     "name": "support.class.builtin.stne",
                     "match":
                         "(?x)(?<!\\.|\\$)\\b(Array|Boolean|Byte|Char|CommandLineArgumentEntry|CommandLineArguments|Date|DictionaryEntry|Double|Enum|Global|Integer|Log|Long|Object|PageLog|Random|ScriptBase|ScriptStart|Server|Short|String)\\b(?!\\$)"
