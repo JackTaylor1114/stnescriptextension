@@ -2219,7 +2219,7 @@
                 {
                     "name": "support.function.stne",
                     "match":
-                        "(?x)(?<!\\.|\\$)\\b(clear(Interval|Timeout)|decodeURI|decodeURIComponent|encodeURI|encodeURIComponent|escape|eval|\n  isFinite|isNaN|parseFloat|parseInt|require|set(Interval|Timeout)|super|unescape|uneval)(?=\\s*\\()"
+                        "(?x)(?<!\\.|\\$)\\b(WriteLine)(?=\\s*\\()"
                 },
                 {
                     "match":
