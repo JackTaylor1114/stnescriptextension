@@ -1595,49 +1595,19 @@
         "expression-operators": {
             "patterns": [
                 {
-                    "name": "keyword.control.flow.stne",
-                    "match": "(?<!\\.|\\$)\\b(await)\\b(?!\\$|\\.)"
-                },
-                {
-                    "match": "(?<!\\.|\\$)\\b(yield)\\b(?!\\$|\\.)(?:\\s*(\\*))?",
-                    "captures": {
-                        "1": {
-                            "name": "keyword.control.flow.stne"
-                        },
-                        "2": {
-                            "name": "keyword.generator.asterisk.stne"
-                        }
-                    }
-                },
-                {
-                    "name": "keyword.operator.expression.delete.stne",
-                    "match": "(?<!\\.|\\$)\\bdelete\\b(?!\\$|\\.)"
-                },
-                {
                     "name": "keyword.operator.expression.in.stne",
-                    "match": "(?<!\\.|\\$)\\bin\\b(?!\\$|\\.)"
+                    "match": "(?i)(?<!\\.|\\$)\\bin\\b(?!\\$|\\.)"
                 },
                 {
-                    "name": "keyword.operator.expression.of.stne",
-                    "match": "(?<!\\.|\\$)\\bof\\b(?!\\$|\\.)"
-                },
-                {
-                    "name": "keyword.operator.expression.instanceof.stne",
-                    "match": "(?<!\\.|\\$)\\binstanceof\\b(?!\\$|\\.)"
+                    "name": "keyword.operator.expression.addressof.stne",
+                    "match": "(?<!\\.|\\$)\\bAddressOf\\b(?!\\$|\\.)"
                 },
                 {
                     "name": "keyword.operator.new.stne",
                     "match": "(?i)(?<!\\.|\\$)\\bNew\\b(?!\\$|\\.)"
                 },
                 {
-                    "include": "#typeof-operator"
-                },
-                {
-                    "name": "keyword.operator.expression.void.stne",
-                    "match": "(?<!\\.|\\$)\\bvoid\\b(?!\\$|\\.)"
-                },
-                {
-                    "begin": "(?<!\\.|\\$)\\b(as)\\s+",
+                    "begin": "(?i)(?<!\\.|\\$)\\b(As)\\s+",
                     "beginCaptures": {
                         "1": {
                             "name": "keyword.control.as.stne"
@@ -1651,32 +1621,16 @@
                     ]
                 },
                 {
-                    "name": "keyword.operator.spread.stne",
-                    "match": "\\.\\.\\."
-                },
-                {
-                    "name": "keyword.operator.assignment.compound.stne",
-                    "match": "\\*=|(?<!\\()/=|%=|\\+=|\\-="
-                },
-                {
-                    "name": "keyword.operator.assignment.compound.bitwise.stne",
-                    "match": "\\&=|\\^=|<<=|>>=|>>>=|\\|="
-                },
-                {
-                    "name": "keyword.operator.bitwise.shift.stne",
-                    "match": "<<|>>>|>>"
-                },
-                {
                     "name": "keyword.operator.comparison.stne",
-                    "match": "===|!==|==|!="
+                    "match": "=|<>"
                 },
                 {
                     "name": "keyword.operator.relational.stne",
-                    "match": "<=|>=|<>|<|>"
+                    "match": "<=|>=|<|>"
                 },
                 {
                     "name": "keyword.operator.logical.stne",
-                    "match": "\\!|&&|\\|\\|"
+                    "match": "(?i)\\not|and|or"
                 },
                 {
                     "name": "keyword.operator.bitwise.stne",
@@ -1696,7 +1650,7 @@
                 },
                 {
                     "name": "keyword.operator.arithmetic.stne",
-                    "match": "%|\\*|/|-|\\+"
+                    "match": "\\*|/|-|\\+"
                 },
                 {
                     "match": "(?<=[_$[:alnum:])])\\s*(/)(?![/*])",
