@@ -1169,7 +1169,7 @@
         },
         "class-expression": {
             "name": "meta.class.stne",
-            "begin": "(?<!\\.|\\$)\\b(class)\\b(?=\\s+|[<{]|/[/*])",
+            "begin": "(?i)(?<!\\.|\\$)\\b(class)\\b(?=\\s+|[<{]|/[/*])",
             "beginCaptures": {
                 "1": {
                     "name": "storage.type.class.stne"
