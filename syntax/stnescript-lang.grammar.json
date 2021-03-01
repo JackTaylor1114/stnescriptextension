@@ -142,9 +142,6 @@
                     "include": "#function-expression"
                 },
                 {
-                    "include": "#arrow-function"
-                },
-                {
                     "include": "#ternary-expression"
                 },
                 {
@@ -881,64 +878,6 @@
                 {
                     "name": "keyword.operator.optional.stne",
                     "match": "\\?"
-                }
-            ]
-        },
-        "arrow-function": {
-            "patterns": [
-                {
-                    "name": "meta.arrow.stne",
-                    "match":
-                        "(?:(?<!\\.|\\$)(\\basync)\\s+)?([_$[:alpha:]][_$[:alnum:]]*)\\s*(?==>)",
-                    "captures": {
-                        "1": {
-                            "name": "storage.modifier.async.stne"
-                        },
-                        "2": {
-                            "name": "variable.parameter.stne"
-                        }
-                    }
-                },
-                {
-                    "name": "meta.arrow.stne",
-                    "begin":
-                        "(?x) (?:\n  (?<!\\.|\\$)(\\basync)\n)? ((?<![})!\\]])\\s*\n  (?=\n    # sure shot arrow functions even if => is on new line\n(\n  [(]\\s*\n  (\n    ([)]\\s*:) |                                                                 # ():\n    ((\\.\\.\\.\\s*)?[_$[:alpha:]][_$[:alnum:]]*\\s*:)                                            # [(]param: | [(]...param:\n  )\n) |\n(\n  [<]\\s*[_$[:alpha:]][_$[:alnum:]]*\\s+extends\\s*[^=>]                                        # < typeparam extends\n) |\n# arrow function possible to detect only with => on same line\n(\n  (<\\s*[_$[:alpha:]\\{\\(\\[]([^<>=]|=[^<]|\\<\\s*[_$[:alpha:]\\{\\(\\[]([^=<>]|=[^<])+\\>)+>\\s*)?                                                           # typeparameters\n  \\(\\s*([_$[:alpha:]\\{\\[]([^()]|\\((\\s*[^()]*)?\\))*)?\\)                          # parameteres\n  (\\s*:\\s*([^<>\\(\\)]|\\<[^<>]+\\>|\\([^\\(\\)]+\\))+)?                                # return type\n  \\s*=>                                                                         # arrow operator\n)\n  )\n)",
-                    "beginCaptures": {
-                        "1": {
-                            "name": "storage.modifier.async.stne"
-                        }
-                    },
-                    "end":
-                        "(?==>|\\{|(^\\s*(export|function|class|interface|let|var|const|import|enum|namespace|module|type|abstract|declare)\\s+))",
-                    "patterns": [
-                        {
-                            "include": "#comment"
-                        },
-                        {
-                            "include": "#function-parameters"
-                        },
-                        {
-                            "include": "#arrow-return-type"
-                        }
-                    ]
-                },
-                {
-                    "name": "meta.arrow.stne",
-                    "begin": "=>",
-                    "beginCaptures": {
-                        "0": {
-                            "name": "storage.type.function.arrow.stne"
-                        }
-                    },
-                    "end": "(?<=\\}|\\S)(?<!=>)|((?!\\{)(?=\\S))",
-                    "patterns": [
-                        {
-                            "include": "#decl-block"
-                        },
-                        {
-                            "include": "#expression"
-                        }
-                    ]
                 }
             ]
         },
