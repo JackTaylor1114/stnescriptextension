@@ -115,18 +115,6 @@
                 {
                     "name": "keyword.control.conditional.stne",
                     "match": "(?i)(?<!\\.|\\$)\\b(else|if|elseif)\\b(?!\\$|\\.)"
-                },
-                {
-                    "name": "keyword.control.with.stne",
-                    "match": "(?i)(?<!\\.|\\$)\\b(with)\\b(?!\\$|\\.)"
-                },
-                {
-                    "name": "keyword.other.debugger.stne",
-                    "match": "(?i)(?<!\\.|\\$)\\b(debugger)\\b(?!\\$|\\.)"
-                },
-                {
-                    "name": "storage.modifier.stne",
-                    "match": "(?i)(?<!\\.|\\$)\\b(declare)\\b(?!\\$|\\.)"
                 }
             ]
         },
