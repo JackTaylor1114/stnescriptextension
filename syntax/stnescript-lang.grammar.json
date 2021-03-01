@@ -2145,21 +2145,6 @@
                         },
                         "1": {
                             "name": "meta.delimiter.decimal.period.stne"
-                        },
-                        "2": {
-                            "name": "meta.delimiter.decimal.period.stne"
-                        },
-                        "3": {
-                            "name": "meta.delimiter.decimal.period.stne"
-                        },
-                        "4": {
-                            "name": "meta.delimiter.decimal.period.stne"
-                        },
-                        "5": {
-                            "name": "meta.delimiter.decimal.period.stne"
-                        },
-                        "6": {
-                            "name": "meta.delimiter.decimal.period.stne"
                         }
                     }
                 }
