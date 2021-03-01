@@ -2217,11 +2217,6 @@
                         "(?x)(?<!\\.|\\$)\\b(Array|Boolean|Byte|Char|CommandLineArgumentEntry|CommandLineArguments|Date|DictionaryEntry|Double|Enum|Global|Integer|Log|Long|Object|PageLog|Random|ScriptBase|ScriptStart|Server|Short|String)\\b(?!\\$)"
                 },
                 {
-                    "name": "support.class.error.stne",
-                    "match":
-                        "(?<!\\.|\\$)\\b((Eval|Internal|Range|Reference|Syntax|Type|URI)?Error)\\b(?!\\$)"
-                },
-                {
                     "name": "support.function.stne",
                     "match":
                         "(?x)(?<!\\.|\\$)\\b(clear(Interval|Timeout)|decodeURI|decodeURIComponent|encodeURI|encodeURIComponent|escape|eval|\n  isFinite|isNaN|parseFloat|parseInt|require|set(Interval|Timeout)|super|unescape|uneval)(?=\\s*\\()"
