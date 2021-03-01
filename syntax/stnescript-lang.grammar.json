@@ -2223,7 +2223,7 @@
                 },
                 {
                     "match":
-                        "(?x)(?<!\\.|\\$)\\b(Math)(?:\\s*(\\.)\\s*(?:\n  (abs|acos|acosh|asin|asinh|atan|atan2|atanh|cbrt|ceil|clz32|cos|cosh|exp|\n  expm1|floor|fround|hypot|imul|log|log10|log1p|log2|max|min|pow|random|\n  round|sign|sin|sinh|sqrt|tan|tanh|trunc)\n  |\n  (E|LN10|LN2|LOG10E|LOG2E|PI|SQRT1_2|SQRT2)))?\\b(?!\\$)",
+                        "(?x)(?<!\\.|\\$)\\b(Math)(?:\\s*(\\.)\\s*(?:\n  (Abs|Acos|Asin|Atan|Atan2|BigMul|Ceiling|Cos|Cosh|Exp|Floor|IEEERemainder|Log|Log10|Max|Min|Pow|Round|Sign|Sin|Sinh|Sqrt|Tan|Tanh|Truncated)\n  |\n  (E|PI)))?\\b(?!\\$)",
                     "captures": {
                         "1": {
                             "name": "support.constant.math.stne"
