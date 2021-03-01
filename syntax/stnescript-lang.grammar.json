@@ -842,22 +842,13 @@
                 {
                     "name": "meta.method.declaration.stne",
                     "begin":
-                        "(?<!\\.|\\$)(?:\\b(public|private|protected)\\s+)?(?:\\b(abstract)\\s+)?(?:\\b(async)\\s+)?(?:\\b(get|set)\\s+)(?:(\\*)\\s*)?(?=((([_$[:alpha:]][_$[:alnum:]]*)|(\\'([^\\'\\\\]|\\\\\\'|\\\\)*\\')|(\\\"([^\\\"\\\\]|\\\\\\\"|\\\\)*\\\")|(\\[([^\\[\\]]|\\[[^\\[\\]]*\\])+\\]))\\s*(\\??))\\s*[\\(\\<])",
+                        "(?i)(?<!\\.|\\$)(?:\\b(Public)\\s+)?\\b(Function)\\s+(?=((([_$[:alpha:]][_$[:alnum:]]*)|(\\'([^\\'\\\\]|\\\\\\'|\\\\)*\\')|(\\\"([^\\\"\\\\]|\\\\\\\"|\\\\)*\\\")|(\\[([^\\[\\]]|\\[[^\\[\\]]*\\])+\\]))\\s*(\\??))\\s*[\\(\\<])",
                     "beginCaptures": {
                         "1": {
                             "name": "storage.modifier.stne"
                         },
                         "2": {
-                            "name": "storage.modifier.stne"
-                        },
-                        "3": {
-                            "name": "storage.modifier.async.stne"
-                        },
-                        "4": {
-                            "name": "storage.type.property.stne"
-                        },
-                        "5": {
-                            "name": "keyword.generator.asterisk.stne"
+                            "name": "storage.type.function.stne"
                         }
                     },
                     "end": "(?=\\}|;|,|$)|(?<=\\})",
@@ -867,86 +858,6 @@
                         },
                         {
                             "include": "#function-body"
-                        }
-                    ]
-                },
-                {
-                    "name": "meta.method.declaration.stne",
-                    "begin":
-                        "(?<!\\.|\\$)(?:\\b(public|private|protected)\\s+)?(?:\\b(abstract)\\s+)?(?:\\b(async)\\s+)?(?:(?:\\b(?:(new)|(constructor))\\b(?!\\$|\\.|:))|(?:(\\*)\\s*)?(?=((([_$[:alpha:]][_$[:alnum:]]*)|(\\'([^\\'\\\\]|\\\\\\'|\\\\)*\\')|(\\\"([^\\\"\\\\]|\\\\\\\"|\\\\)*\\\")|(\\[([^\\[\\]]|\\[[^\\[\\]]*\\])+\\]))\\s*(\\??))?\\s*[\\(\\<]))",
-                    "beginCaptures": {
-                        "1": {
-                            "name": "storage.modifier.stne"
-                        },
-                        "2": {
-                            "name": "storage.modifier.stne"
-                        },
-                        "3": {
-                            "name": "storage.modifier.async.stne"
-                        },
-                        "4": {
-                            "name": "keyword.operator.new.stne"
-                        },
-                        "5": {
-                            "name": "storage.type.stne"
-                        },
-                        "6": {
-                            "name": "keyword.generator.asterisk.stne"
-                        }
-                    },
-                    "end": "(?=\\}|;|,|$)|(?<=\\})",
-                    "patterns": [
-                        {
-                            "include": "#method-declaration-name"
-                        },
-                        {
-                            "include": "#function-body"
-                        }
-                    ]
-                }
-            ]
-        },
-        "object-literal-method-declaration": {
-            "name": "meta.method.declaration.stne",
-            "begin":
-                "(?<!\\.|\\$)(?:\\b(async)\\s+)?(?:\\b(get|set)\\s+)?(?:(\\*)\\s*)?(?=((([_$[:alpha:]][_$[:alnum:]]*)|(\\'([^\\'\\\\]|\\\\\\'|\\\\)*\\')|(\\\"([^\\\"\\\\]|\\\\\\\"|\\\\)*\\\")|(\\[([^\\[\\]]|\\[[^\\[\\]]*\\])+\\]))\\s*(\\??))\\s*[\\(\\<])",
-            "beginCaptures": {
-                "1": {
-                    "name": "storage.modifier.async.stne"
-                },
-                "2": {
-                    "name": "storage.type.property.stne"
-                },
-                "3": {
-                    "name": "keyword.generator.asterisk.stne"
-                }
-            },
-            "end": "(?=\\}|;|,)|(?<=\\})",
-            "patterns": [
-                {
-                    "include": "#method-declaration-name"
-                },
-                {
-                    "include": "#function-body"
-                },
-                {
-                    "begin":
-                        "(?<!\\.|\\$)(?:\\b(async)\\s+)?(?:\\b(get|set)\\s+)?(?:(\\*)\\s*)?(?=((([_$[:alpha:]][_$[:alnum:]]*)|(\\'([^\\'\\\\]|\\\\\\'|\\\\)*\\')|(\\\"([^\\\"\\\\]|\\\\\\\"|\\\\)*\\\")|(\\[([^\\[\\]]|\\[[^\\[\\]]*\\])+\\]))\\s*(\\??))\\s*[\\(\\<])",
-                    "beginCaptures": {
-                        "1": {
-                            "name": "storage.modifier.async.stne"
-                        },
-                        "2": {
-                            "name": "storage.type.property.stne"
-                        },
-                        "3": {
-                            "name": "keyword.generator.asterisk.stne"
-                        }
-                    },
-                    "end": "(?=\\(|\\<)",
-                    "patterns": [
-                        {
-                            "include": "#method-declaration-name"
                         }
                     ]
                 }
