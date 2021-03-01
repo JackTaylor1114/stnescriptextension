@@ -51,9 +51,6 @@
                     "include": "#control-statement"
                 },
                 {
-                    "include": "#after-operator-block-as-object-literal"
-                },
-                {
                     "include": "#decl-block"
                 },
                 {
@@ -1340,9 +1337,6 @@
                 },
                 {
                     "include": "#property-accessor"
-                },
-                {
-                    "include": "#after-operator-block-as-object-literal"
                 },
                 {
                     "include": "#decl-block"
