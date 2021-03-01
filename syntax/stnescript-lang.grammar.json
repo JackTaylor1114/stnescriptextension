@@ -2214,7 +2214,7 @@
                 {
                     "name": "support.class.builtin.stne",
                     "match":
-                        "(?x)(?<!\\.|\\$)\\b(Array|ArrayBuffer|Atomics|Boolean|DataView|Date|Float32Array|Float64Array|Function|Generator\n  |GeneratorFunction|Int8Array|Int16Array|Int32Array|Intl|Map|Number|Object|Promise|Proxy\n  |Reflect|RegExp|Set|SharedArrayBuffer|SIMD|String|Symbol|TypedArray\n  |Uint8Array|Uint16Array|Uint32Array|Uint8ClampedArray|WeakMap|WeakSet)\\b(?!\\$)"
+                        "(?x)(?<!\\.|\\$)\\b(Array|Boolean|Byte|Char|CommandLineArgumentEntry|CommandLineArguments|Date|DictionaryEntry|Double|Enum|Global|Integer|Log|Long|Object|PageLog|Random|ScriptBase|ScriptStart|Server|Short|String)\\b(?!\\$)"
                 },
                 {
                     "name": "support.class.error.stne",
