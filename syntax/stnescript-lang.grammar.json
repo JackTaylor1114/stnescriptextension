@@ -2241,35 +2241,6 @@
                 },
                 {
                     "match":
-                        "(?x)(?<!\\.|\\$)\\b(console)(?:\\s*(\\.)\\s*(\n  assert|clear|count|debug|dir|error|group|groupCollapsed|groupEnd|info|log\n  |profile|profileEnd|table|time|timeEnd|timeStamp|trace|warn))?\\b(?!\\$)",
-                    "captures": {
-                        "1": {
-                            "name": "support.class.console.stne"
-                        },
-                        "2": {
-                            "name": "punctuation.accessor.stne"
-                        },
-                        "3": {
-                            "name": "support.function.console.stne"
-                        }
-                    }
-                },
-                {
-                    "match": "(?<!\\.|\\$)\\b(JSON)(?:\\s*(\\.)\\s*(parse|stringify))?\\b(?!\\$)",
-                    "captures": {
-                        "1": {
-                            "name": "support.constant.stneon.stne"
-                        },
-                        "2": {
-                            "name": "punctuation.accessor.stne"
-                        },
-                        "3": {
-                            "name": "support.function.stneon.stne"
-                        }
-                    }
-                },
-                {
-                    "match":
                         "(?x) (\\.) \\s* (?:\n  (constructor|length|prototype|__proto__)\n  |\n  (EPSILON|MAX_SAFE_INTEGER|MAX_VALUE|MIN_SAFE_INTEGER|MIN_VALUE|NEGATIVE_INFINITY|POSITIVE_INFINITY))\\b(?!\\$)",
                     "captures": {
                         "1": {
