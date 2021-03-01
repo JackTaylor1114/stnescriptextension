@@ -2411,7 +2411,7 @@
         },
         "null-literal": {
             "name": "constant.language.null.stne",
-            "match": "(?<!\\.|\\$)\\bnull\\b(?!\\$)"
+            "match": "(?i)(?<!\\.|\\$)\\bnull\\b(?!\\$)"
         },
         "nothing-literal": {
             "name": "constant.language.nothing.stne",
@@ -2419,25 +2419,25 @@
         },
         "this-literal": {
             "name": "variable.language.this.stne",
-            "match": "(?<!\\$)((?<=\\.\\.\\.)|(?<!\\.))\\bthis\\b(?!\\$)"
+            "match": "(?i)(?<!\\$)((?<=\\.\\.\\.)|(?<!\\.))\\bthis\\b(?!\\$)"
         },
         "super-literal": {
             "name": "variable.language.super.stne",
-            "match": "(?<!\\.|\\$)\\bsuper\\b(?!\\$)"
+            "match": "(?i)(?<!\\.|\\$)\\bsuper\\b(?!\\$)"
         },
         "undefined-literal": {
             "name": "constant.language.undefined.stne",
-            "match": "(?<!\\.|\\$)\\bundefined\\b(?!\\$)"
+            "match": "(?i)(?<!\\.|\\$)\\bundefined\\b(?!\\$)"
         },
         "numericConstant-literal": {
             "patterns": [
                 {
                     "name": "constant.language.nan.stne",
-                    "match": "(?<!\\.|\\$)\\bNaN\\b(?!\\$)"
+                    "match": "(?i)(?<!\\.|\\$)\\bNaN\\b(?!\\$)"
                 },
                 {
                     "name": "constant.language.infinity.stne",
-                    "match": "(?<!\\.|\\$)\\bInfinity\\b(?!\\$)"
+                    "match": "(?i)(?<!\\.|\\$)\\bInfinity\\b(?!\\$)"
                 }
             ]
         },
