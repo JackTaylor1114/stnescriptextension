@@ -921,9 +921,6 @@
                     "include": "#parameter-name"
                 },
                 {
-                    "include": "#variable-initializer"
-                },
-                {
                     "name": "punctuation.separator.parameter.stne",
                     "match": ","
                 }
