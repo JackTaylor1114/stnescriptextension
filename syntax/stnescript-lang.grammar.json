@@ -2174,10 +2174,6 @@
             "name": "variable.language.this.stne",
             "match": "(?i)(?<!\\$)((?<=\\.\\.\\.)|(?<!\\.))\\bthis\\b(?!\\$)"
         },
-        "super-literal": {
-            "name": "variable.language.super.stne",
-            "match": "(?i)(?<!\\.|\\$)\\bsuper\\b(?!\\$)"
-        },
         "support-objects": {
             "patterns": [
                 {
