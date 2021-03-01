@@ -768,21 +768,15 @@
         "function-declaration": {
             "name": "meta.function.stne",
             "begin":
-                "(?<!\\.|\\$)\\b(?:(export)\\s+)?(?:(async)\\s+)?(function\\b)(?:\\s*(\\*))?(?:(?:\\s+|(?<=\\*))([_$[:alpha:]][_$[:alnum:]]*))?\\s*",
+                "(?i)(?<!\\.|\\$)\\b(?:\\b(Public)\\s+)?\\b(Function\\b)(?:(?:\\s+|(?<=\\*))([_$[:alpha:]][_$[:alnum:]]*))?\\s*",
             "beginCaptures": {
                 "1": {
-                    "name": "keyword.control.export.stne"
+                    "name": "storage.modifier.stne"
                 },
                 "2": {
-                    "name": "storage.modifier.async.stne"
-                },
-                "3": {
                     "name": "storage.type.function.stne"
                 },
-                "4": {
-                    "name": "keyword.generator.asterisk.stne"
-                },
-                "5": {
+                "3": {
                     "name": "meta.definition.function.stne entity.name.function.stne"
                 }
             },
