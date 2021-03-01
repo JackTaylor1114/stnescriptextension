@@ -76,9 +76,6 @@
                     "include": "#class-declaration"
                 },
                 {
-                    "include": "#interface-declaration"
-                },
-                {
                     "include": "#enum-declaration"
                 },
                 {
@@ -1188,9 +1185,6 @@
                     "include": "#comment"
                 },
                 {
-                    "include": "#class-or-interface-heritage"
-                },
-                {
                     "match": "[_$[:alpha:]][_$[:alnum:]]*",
                     "captures": {
                         "0": {
@@ -1202,99 +1196,11 @@
                     "include": "#type-parameters"
                 },
                 {
-                    "include": "#class-or-interface-body"
+                    "include": "#class-body"
                 }
             ]
         },
-        "interface-declaration": {
-            "name": "meta.interface.stne",
-            "begin":
-                "(?<!\\.|\\$)\\b(?:(export)\\s+)?\\b(?:(abstract)\\s+)?\\b(interface)\\b(?=\\s+|/[/*])",
-            "beginCaptures": {
-                "1": {
-                    "name": "keyword.control.export.stne"
-                },
-                "2": {
-                    "name": "storage.modifier.stne"
-                },
-                "3": {
-                    "name": "storage.type.interface.stne"
-                }
-            },
-            "end": "(?<=\\})",
-            "patterns": [
-                {
-                    "include": "#comment"
-                },
-                {
-                    "include": "#class-or-interface-heritage"
-                },
-                {
-                    "match": "[_$[:alpha:]][_$[:alnum:]]*",
-                    "captures": {
-                        "0": {
-                            "name": "entity.name.type.interface.stne"
-                        }
-                    }
-                },
-                {
-                    "include": "#type-parameters"
-                },
-                {
-                    "include": "#class-or-interface-body"
-                }
-            ]
-        },
-        "class-or-interface-heritage": {
-            "begin": "(?<!\\.|\\$)(?:\\b(extends|implements)\\b)(?!\\$|\\.)",
-            "beginCaptures": {
-                "1": {
-                    "name": "storage.modifier.stne"
-                }
-            },
-            "end": "(?=\\{)",
-            "endCaptures": {
-                "1": {
-                    "name": "punctuation.definition.block.stne"
-                }
-            },
-            "patterns": [
-                {
-                    "include": "#comment"
-                },
-                {
-                    "include": "#class-or-interface-heritage"
-                },
-                {
-                    "include": "#type-parameters"
-                },
-                {
-                    "match":
-                        "([_$[:alpha:]][_$[:alnum:]]*)\\s*(\\.)(?=\\s*[_$[:alpha:]][_$[:alnum:]]*(\\s*\\.\\s*[_$[:alpha:]][_$[:alnum:]]*)*\\s*([,<{]|extends|implements|//|/\\*))",
-                    "captures": {
-                        "1": {
-                            "name": "entity.name.type.module.stne"
-                        },
-                        "2": {
-                            "name": "punctuation.accessor.stne"
-                        }
-                    }
-                },
-                {
-                    "match":
-                        "([_$[:alpha:]][_$[:alnum:]]*)(?=\\s*([,<{]|extends|implements|//|/\\*))",
-                    "captures": {
-                        "1": {
-                            "name": "entity.other.inherited-class.stne"
-                        }
-                    }
-                },
-                {
-                    "include": "#expression"
-                }
-            ]
-        },
-        "class-or-interface-body": {
+        "class-body": {
             "begin": "\\{",
             "beginCaptures": {
                 "0": {
