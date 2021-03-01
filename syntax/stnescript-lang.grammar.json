@@ -2401,11 +2401,11 @@
             "patterns": [
                 {
                     "name": "constant.language.boolean.true.stne",
-                    "match": "(?<!\\.|\\$)\\btrue\\b(?!\\$)"
+                    "match": "(?i)(?<!\\.|\\$)\\btrue\\b(?!\\$)"
                 },
                 {
                     "name": "constant.language.boolean.false.stne",
-                    "match": "(?<!\\.|\\$)\\bfalse\\b(?!\\$)"
+                    "match": "(?i)(?<!\\.|\\$)\\bfalse\\b(?!\\$)"
                 }
             ]
         },
