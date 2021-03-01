@@ -2088,7 +2088,7 @@
             "patterns": [
                 {
                     "name": "meta.return.type.stne",
-                    "begin": "(?<=\\))\\s*(:)(?=\\s*\\S)",
+                    "begin": "(?<=\\))\\s*((?i)As)(?=\\s*\\S)",
                     "beginCaptures": {
                         "1": {
                             "name": "keyword.operator.type.annotation.stne"
