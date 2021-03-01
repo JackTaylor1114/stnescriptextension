@@ -196,12 +196,9 @@
         "var-expr": {
             "name": "meta.var.expr.stne",
             "begin":
-                "(?i)(?<!\\.|\\$)(?:(\\bexport)\\s+)?\\b(Var(?!\\s+enum\\b))\\b(?!\\$|\\.)",
+                "(?i)(?<!\\.|\\$)\\b(Var(?!\\s+enum\\b))\\b(?!\\$|\\.)",
             "beginCaptures": {
                 "1": {
-                    "name": "keyword.control.export.stne"
-                },
-                "2": {
                     "name": "storage.type.stne"
                 }
             },
