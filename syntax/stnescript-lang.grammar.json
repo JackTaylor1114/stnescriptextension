@@ -3169,7 +3169,7 @@
                     "name": "punctuation.definition.string.begin.stne"
                 }
             },
-            "end": "(\")|((?:[^\\\\\\n])$)",
+            "end": "(\"(?!\"))|((?:[^\\\\\\n])$)",
             "endCaptures": {
                 "1": {
                     "name": "punctuation.definition.string.end.stne"
@@ -3180,7 +3180,7 @@
             },
             "patterns": [
                 {
-                    "include": "#string-character-escape"
+                    "include": "#string-double-quoted-character-escape"
                 }
             ]
         },
@@ -3192,7 +3192,7 @@
                     "name": "punctuation.definition.string.begin.stne"
                 }
             },
-            "end": "(\\')|((?:[^\\\\\\n])$)",
+            "end": "(\\'(?!'))|((?:[^\\\\\\n])$)",
             "endCaptures": {
                 "1": {
                     "name": "punctuation.definition.string.end.stne"
@@ -3203,13 +3203,17 @@
             },
             "patterns": [
                 {
-                    "include": "#string-character-escape"
+                    "include": "#string-single-quoted-character-escape"
                 }
             ]
         },
-        "string-character-escape": {
+        "string-single-quoted-character-escape": {
             "name": "constant.character.escape.stne",
-            "match": "\\\\(x[0-9A-Fa-f]{2}|[0-2][0-7]{0,2}|3[0-6][0-7]?|37[0-7]?|[4-7][0-7]?|.|$)"
+            "match": "''"
+        },
+        "string-double-quoted-character-escape": {
+            "name": "constant.character.escape.stne",
+            "match": "\"\""
         },
         "template": {
             "name": "string.template.stne",
