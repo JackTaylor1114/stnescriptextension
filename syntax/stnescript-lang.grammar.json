@@ -2256,24 +2256,6 @@
                 },
                 {
                     "match":
-                        "(?x)(?<!\\.|\\$)\\b(process)(?:(\\.)(?:\n  (arch|argv|config|connected|env|execArgv|execPath|exitCode|mainModule|pid|platform|release|stderr|stdin|stdout|title|version|versions)\n  |\n  (abort|chdir|cwd|disconnect|exit|[sg]ete?[gu]id|send|[sg]etgroups|initgroups|kill|memoryUsage|nextTick|umask|uptime|hrtime)\n))?\\b(?!\\$)",
-                    "captures": {
-                        "1": {
-                            "name": "support.variable.object.process.stne"
-                        },
-                        "2": {
-                            "name": "punctuation.accessor.stne"
-                        },
-                        "3": {
-                            "name": "support.variable.property.process.stne"
-                        },
-                        "4": {
-                            "name": "support.function.process.stne"
-                        }
-                    }
-                },
-                {
-                    "match":
                         "(?<!\\.|\\$)\\b(?:(exports)|(module)(?:(\\.)(exports|id|filename|loaded|parent|children))?)\\b(?!\\$)",
                     "captures": {
                         "1": {
