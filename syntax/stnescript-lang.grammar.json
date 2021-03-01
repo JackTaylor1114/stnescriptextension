@@ -476,52 +476,10 @@
             "patterns": [
                 {
                     "match":
-                        "\\s*\\b(public|protected|private|readonly)(?=\\s+(public|protected|private|readonly)\\s+)",
+                        "(?:\\s*\\b([_$[:alpha:]][_$[:alnum:]]*))\\s*",
                     "captures": {
                         "1": {
-                            "name": "storage.modifier.stne"
-                        }
-                    }
-                },
-                {
-                    "match":
-                        "(?x)(?:\\s*\\b(public|private|protected|readonly)\\s+)?(\\.\\.\\.)?\\s*(?<!=|:)(?:(this)|([_$[:alpha:]][_$[:alnum:]]*))\\s*(\\??)(?=\\s*\n# function assignment |\n(=\\s*(\n  ((async\\s+)?(\n    (function\\s*[(<*]) |\n    (function\\s+) |\n    ([_$[:alpha:]][_$[:alnum:]]*\\s*=>)\n  )) |\n  ((async\\s*)?(\n    # sure shot arrow functions even if => is on new line\n(\n  [(]\\s*\n  (\n    ([)]\\s*:) |                                                                 # ():\n    ((\\.\\.\\.\\s*)?[_$[:alpha:]][_$[:alnum:]]*\\s*:)                                            # [(]param: | [(]...param:\n  )\n) |\n(\n  [<]\\s*[_$[:alpha:]][_$[:alnum:]]*\\s+extends\\s*[^=>]                                        # < typeparam extends\n) |\n# arrow function possible to detect only with => on same line\n(\n  (<\\s*[_$[:alpha:]\\{\\(\\[]([^<>=]|=[^<]|\\<\\s*[_$[:alpha:]\\{\\(\\[]([^=<>]|=[^<])+\\>)+>\\s*)?                                                           # typeparameters\n  \\(\\s*([_$[:alpha:]\\{\\[]([^()]|\\((\\s*[^()]*)?\\))*)?\\)                          # parameteres\n  (\\s*:\\s*([^<>\\(\\)]|\\<[^<>]+\\>|\\([^\\(\\)]+\\))+)?                                # return type\n  \\s*=>                                                                         # arrow operator\n)\n  ))\n)) |\n# typeannotation is fn type: < | () | (... | (param: | (param, | (param? | (param= | (param) =>\n(:\\s*(\n  (<) |\n  ([(]\\s*(\n    ([)]) |\n    (\\.\\.\\.) |\n    ([_$[:alnum:]]+\\s*(\n      ([:,?=])|\n      ([)]\\s*=>)\n    ))\n  ))\n)))",
-                    "captures": {
-                        "1": {
-                            "name": "storage.modifier.stne"
-                        },
-                        "2": {
-                            "name": "keyword.operator.rest.stne"
-                        },
-                        "3": {
-                            "name": "entity.name.function.stne variable.language.this.stne"
-                        },
-                        "4": {
-                            "name": "entity.name.function.stne"
-                        },
-                        "5": {
-                            "name": "keyword.operator.optional.stne"
-                        }
-                    }
-                },
-                {
-                    "match":
-                        "(?:\\s*\\b(public|private|protected|readonly)\\s+)?(\\.\\.\\.)?\\s*(?<!=|:)(?:((?<!\\.|\\$)\\bthis\\b(?!\\.|\\$))|([_$[:alpha:]][_$[:alnum:]]*))\\s*(\\??)",
-                    "captures": {
-                        "1": {
-                            "name": "storage.modifier.stne"
-                        },
-                        "2": {
-                            "name": "keyword.operator.rest.stne"
-                        },
-                        "3": {
-                            "name": "variable.parameter.stne variable.language.this.stne"
-                        },
-                        "4": {
                             "name": "variable.parameter.stne"
-                        },
-                        "5": {
-                            "name": "keyword.operator.optional.stne"
                         }
                     }
                 }
@@ -957,16 +915,10 @@
                     "include": "#comment"
                 },
                 {
-                    "include": "#decorator"
-                },
-                {
-                    "include": "#destructuring-parameter"
+                    "include": "#type-annotation"
                 },
                 {
                     "include": "#parameter-name"
-                },
-                {
-                    "include": "#type-annotation"
                 },
                 {
                     "include": "#variable-initializer"
@@ -1985,7 +1937,7 @@
             "patterns": [
                 {
                     "name": "meta.type.annotation.stne",
-                    "begin": "(:)(?=\\s*\\S)",
+                    "begin": "(?i)(As)(?=\\s*\\S)",
                     "beginCaptures": {
                         "1": {
                             "name": "keyword.operator.type.annotation.stne"
@@ -2001,7 +1953,7 @@
                 },
                 {
                     "name": "meta.type.annotation.stne",
-                    "begin": "(:)",
+                    "begin": "(?i)(As)",
                     "beginCaptures": {
                         "1": {
                             "name": "keyword.operator.type.annotation.stne"
