@@ -107,9 +107,6 @@
         "control-statement": {
             "patterns": [
                 {
-                    "include": "#switch-statement"
-                },
-                {
                     "include": "#for-loop"
                 },
                 {
@@ -123,10 +120,6 @@
                 {
                     "name": "keyword.control.flow.stne",
                     "match": "(?i)(?<!\\.|\\$)\\b(return)\\b(?!\\$|\\.)"
-                },
-                {
-                    "name": "keyword.control.switch.stne",
-                    "match": "(?i)(?<!\\.|\\$)\\b(case|default|switch)\\b(?!\\$|\\.)"
                 },
                 {
                     "name": "keyword.control.conditional.stne",
@@ -1783,76 +1776,6 @@
                 {
                     "name": "variable.other.readwrite.alias.stne",
                     "match": "([_$[:alpha:]][_$[:alnum:]]*)"
-                }
-            ]
-        },
-        "switch-statement": {
-            "name": "switch-statement.expr.stne",
-            "begin": "(?i)(?<!\\.|\\$)(?=\\bswitch\\s*\\()",
-            "end": "\\}",
-            "endCaptures": {
-                "0": {
-                    "name": "punctuation.definition.block.stne"
-                }
-            },
-            "patterns": [
-                {
-                    "name": "switch-expression.expr.stne",
-                    "begin": "(?<!\\.|\\$)\\b(switch)\\s*(\\()",
-                    "beginCaptures": {
-                        "1": {
-                            "name": "keyword.control.switch.stne"
-                        },
-                        "2": {
-                            "name": "meta.brace.round.stne"
-                        }
-                    },
-                    "end": "\\)",
-                    "endCaptures": {
-                        "0": {
-                            "name": "meta.brace.round.stne"
-                        }
-                    },
-                    "patterns": [
-                        {
-                            "include": "#expression"
-                        }
-                    ]
-                },
-                {
-                    "name": "switch-block.expr.stne",
-                    "begin": "\\{",
-                    "beginCaptures": {
-                        "0": {
-                            "name": "punctuation.definition.block.stne"
-                        }
-                    },
-                    "end": "(?=\\})",
-                    "patterns": [
-                        {
-                            "name": "case-clause.expr.stne",
-                            "begin": "(?<!\\.|\\$)\\b(case|default(?=:))\\b(?!\\$|\\.)",
-                            "beginCaptures": {
-                                "1": {
-                                    "name": "keyword.control.switch.stne"
-                                }
-                            },
-                            "end": ":",
-                            "endCaptures": {
-                                "0": {
-                                    "name": "punctuation.definition.section.case-statement.stne"
-                                }
-                            },
-                            "patterns": [
-                                {
-                                    "include": "#expression"
-                                }
-                            ]
-                        },
-                        {
-                            "include": "#statements"
-                        }
-                    ]
                 }
             ]
         },
