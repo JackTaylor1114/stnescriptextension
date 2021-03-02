@@ -1936,7 +1936,7 @@
             "patterns": [
                 {
                     "name": "meta.type.annotation.stne",
-                    "begin": "(?i)(As)(?=\\s*\\S)",
+                    "begin": "(?i)(As)(?=\\s*(?!New)\\S)",
                     "beginCaptures": {
                         "1": {
                             "name": "keyword.operator.type.annotation.stne"
@@ -1952,7 +1952,7 @@
                 },
                 {
                     "name": "meta.type.annotation.stne",
-                    "begin": "(?i)(As)",
+                    "begin": "(?i)(As)(?!\\s*New)",
                     "beginCaptures": {
                         "1": {
                             "name": "keyword.operator.type.annotation.stne"
@@ -1972,42 +1972,33 @@
             "patterns": [
                 {
                     "name": "meta.type.annotation.stne",
-                    "begin": "(?i)(As)\\s+(New)(?=\\s*\\S)",
+                    "begin": "(?i)(As)\\s+(?=New)(?=\\s*\\S)",
                     "beginCaptures": {
                         "1": {
                             "name": "keyword.operator.type.annotation.stne"
-                        },
-                        "2": {
-                            "name": "keyword.operator.new.stne"
                         }
                     },
                     "end":
                         "(?<![:|&])((?=$|^|[,);\\}\\]]|//)|(?==[^>])|((?<=[\\}>\\]\\)]|[_$[:alpha:]])\\s*(?=\\{)))",
                     "patterns": [
                         {
-                            "include": "#type"
+                            "include": "#new-expr"
                         }
                     ]
                 },
                 {
                     "name": "meta.type.annotation.stne",
-                    "begin": "(?i)(As)\\s+(New)",
+                    "begin": "(?i)(As)\\s+(?=New)",
                     "beginCaptures": {
                         "1": {
                             "name": "keyword.operator.type.annotation.stne"
-                        },
-                        "2": {
-                            "name": "keyword.operator.new.stne"
                         }
                     },
                     "end":
                         "(?<![:|&])((?=[,);\\}\\]]|//)|(?==[^>])|(?=^\\s*$)|((?<=\\S)(?=\\s*$))|((?<=[\\}>\\]\\)]|[_$[:alpha:]])\\s*(?=\\{)))",
                     "patterns": [
                         {
-                            "include": "#type"
-                        },
-                        {
-                            "include": "#paren-expression"
+                            "include": "#new-expr"
                         }
                     ]
                 }
