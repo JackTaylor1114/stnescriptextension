@@ -31,7 +31,7 @@ export function activate(context: vscode.ExtensionContext) {
             let documentFullRange: vscode.Range = new vscode.Range(documentStart, documentEnd);
 
             //Format the document using the JavaScript librarby 
-            let documentFormatted = beautify_js(documentText, { indent_size: 4, space_in_empty_paren: true });
+            let documentFormatted = beautify_js(documentText, { indent_size: 4, space_in_empty_paren: true, brace_style: "preserve-inline" });
             
             // Restore escaped <> operator
             documentFormatted = documentFormatted.replace(/[\r\n ]*\s*\/\* beautify preserve:start \*\/<>\/\* beautify preserve:end \*\//g, " <> ");
