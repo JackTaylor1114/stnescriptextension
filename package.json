@@ -44,7 +44,8 @@
     },
     "scripts": {
         "postinstall": "node ./node_modules/vscode/bin/install && tsc -p .",
-        "build": "tsc -p ."
+        "build": "tsc -p .",
+        "compile": "tsc -p ."
     },
     "devDependencies": {
         "@types/node": "*",
