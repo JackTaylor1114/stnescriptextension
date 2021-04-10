@@ -22,15 +22,19 @@ export function activate(context: vscode.ExtensionContext) {
 
             //Load the whole document text
             let documentText = document.getText();
+
+            // Escape <> operator as beautify-js doesn't understand it properly
+            documentText = documentText.replace(/<>/g, "/* beautify preserve:start */<>/* beautify preserve:end */");
+            
             let documentStart: vscode.Position = document.lineAt(0).range.start;
             let documentEnd: vscode.Position = document.lineAt(document.lineCount - 1).range.end;
             let documentFullRange: vscode.Range = new vscode.Range(documentStart, documentEnd);
 
             //Format the document using the JavaScript librarby 
             let documentFormatted = beautify_js(documentText, { indent_size: 4, space_in_empty_paren: true });
-
-            //Do some custom changes after the formatting
-            documentFormatted = documentFormatted.replace("< >", "<>");
+            
+            // Restore escaped <> operator
+            documentFormatted = documentFormatted.replace(/[\r\n ]*\s*\/\* beautify preserve:start \*\/<>\/\* beautify preserve:end \*\//g, " <> ");
 
             //Return the formatted text
             return [vscode.TextEdit.replace(documentFullRange, documentFormatted)];
