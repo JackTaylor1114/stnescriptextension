@@ -1,9 +1,9 @@
 {
     "name": "stnescript-support",
-    "displayName": "STNE Script-Support for Visual Studio Code",
-    "description": "Provides basic formatting and syntax highlighting for .stne-Files",
+    "displayName": "STNE Script Support for Visual Studio Code",
+    "description": "Provides formatting, syntax highlighting and suggestions for .stne-Files",
     "version": "1.0.0",
-    "publisher": "Orion",
+    "publisher": "STNE Orion",
     "icon": "img/menuicon.png",
     "engines": {
         "vscode": "^1.52.0"
