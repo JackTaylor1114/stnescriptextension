@@ -65,7 +65,9 @@ export function activate(context: vscode.ExtensionContext) {
                     }
 
                     //Remove the '.' from the end of the word and check if a shorter last word was found
-                    lastWord = lastWord.slice(0, -1);
+                    if(splitter != '.') {
+                        lastWord = lastWord.slice(0, -1);
+                    }
                     if (lastWord.length < currentLastWord.length || currentLastWord == "") {
                         currentLastWord = lastWord;
                     }
