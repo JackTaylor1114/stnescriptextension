@@ -2,7 +2,7 @@
     "name": "stnescript-support",
     "displayName": "STNE Script Support for Visual Studio Code",
     "description": "Provides formatting, syntax highlighting and suggestions for .stne-Files",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "publisher": "STNE",
     "icon": "img/menuicon.png",
     "engines": {
