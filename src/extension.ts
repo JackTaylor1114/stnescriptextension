@@ -25,14 +25,14 @@ export function activate(context: vscode.ExtensionContext) {
 
             // Escape <> operator as beautify-js doesn't understand it properly
             documentText = documentText.replace(/<>/g, "/* beautify preserve:start */<>/* beautify preserve:end */");
-            
+
             let documentStart: vscode.Position = document.lineAt(0).range.start;
             let documentEnd: vscode.Position = document.lineAt(document.lineCount - 1).range.end;
             let documentFullRange: vscode.Range = new vscode.Range(documentStart, documentEnd);
 
             //Format the document using the JavaScript librarby 
             let documentFormatted = beautify_js(documentText, { indent_size: 4, space_in_empty_paren: true, brace_style: "preserve-inline" });
-            
+
             // Restore escaped <> operator
             documentFormatted = documentFormatted.replace(/[\r\n ]*\s*\/\* beautify preserve:start \*\/<>\/\* beautify preserve:end \*\//g, " <> ");
 
@@ -48,12 +48,32 @@ export function activate(context: vscode.ExtensionContext) {
             //Get the text written between the dot and and the last space in the line
             const linePrefix = document.lineAt(position).text.substr(0, position.character);
             let docText = document.getText();
-            let wordsOfLine = linePrefix.split(' ');
-            let lastWord = wordsOfLine[wordsOfLine.length - 1];
-            lastWord = lastWord.slice(0, -1);
+
+            //Split the current line by different chars and check for the shortest last word
+            let splitters = [' ', '(', '{', '.'];
+            let currentLastWord = "";
+            for (let splitter of splitters) {
+                let wordsOfLine = linePrefix.split(splitter);
+                if (wordsOfLine.length > 0) {
+
+                    //If the splitter is '.', use the second last word because '.' was just typed
+                    let lastWord = "";
+                    if (splitter == '.' && wordsOfLine.length > 1) {
+                        lastWord = wordsOfLine[wordsOfLine.length - 2];
+                    } else {
+                        lastWord = wordsOfLine[wordsOfLine.length - 1];
+                    }
+
+                    //Remove the '.' from the end of the word and check if a shorter last word was found
+                    lastWord = lastWord.slice(0, -1);
+                    if (lastWord.length < currentLastWord.length || currentLastWord == "") {
+                        currentLastWord = lastWord;
+                    }
+                }
+            }
 
             //Return the completition suggestions
-            return GetCompletitionItemsForType(GetTypeForSuspectedVar(docText, lastWord));
+            return GetCompletitionItemsForType(GetTypeForSuspectedVar(docText, currentLastWord));
         }
     },
         '.'
