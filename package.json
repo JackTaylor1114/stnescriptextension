@@ -4,6 +4,7 @@
     "description": "Provides formatting, syntax highlighting and suggestions for .stne-Files",
     "version": "1.0.2",
     "publisher": "STNE",
+    "license": "MIT",
     "icon": "img/menuicon.png",
     "engines": {
         "vscode": "^1.52.0"
