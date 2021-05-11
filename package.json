@@ -5,6 +5,10 @@
     "version": "1.0.2",
     "publisher": "STNE",
     "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/JackTaylor1114/stnescriptextension.git"
+    },
     "icon": "img/menuicon.png",
     "engines": {
         "vscode": "^1.52.0"
