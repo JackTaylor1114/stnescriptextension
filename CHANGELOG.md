@@ -1,3 +1,7 @@
+## 1.0.3
+
+* Updated available classes and members
+
 ## 1.0.2
 
 * Fixed problem with item suggestions for embedded variables
