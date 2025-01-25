@@ -11,15 +11,16 @@ let types: Array<Type> = [];
 /**
  * Main function that is called when the extension is started
  */
-export function activate(context: vscode.ExtensionContext) {
+export function activate(context: vscode.ExtensionContext)
+{
 
     //Load the types from the stne.json file and store them 
     LoadTypesFromJSON();
 
     //Register DocumentFormattingEditProvider (Formats the whole document)
     vscode.languages.registerDocumentFormattingEditProvider('stnescript-lang', {
-        provideDocumentFormattingEdits(document: vscode.TextDocument): vscode.TextEdit[] {
-
+        provideDocumentFormattingEdits(document: vscode.TextDocument): vscode.TextEdit[]
+        {
             //Load the whole document text
             let documentText = document.getText();
 
@@ -30,8 +31,13 @@ export function activate(context: vscode.ExtensionContext) {
             let documentEnd: vscode.Position = document.lineAt(document.lineCount - 1).range.end;
             let documentFullRange: vscode.Range = new vscode.Range(documentStart, documentEnd);
 
+            //Get formatting options from the user preferences
+            const config = vscode.workspace.getConfiguration('scriptSupportSTNE');
+            let indentSize = parseInt(config.get<string>('indentSize') || "2", 10);
+            let braceStyle = config.get<string>('braceStyle') || "expand";
+
             //Format the document using the JavaScript librarby 
-            let documentFormatted = beautify_js(documentText, { indent_size: 4, space_in_empty_paren: true, brace_style: "preserve-inline" });
+            let documentFormatted = beautify_js(documentText, { indent_size: indentSize, space_in_empty_paren: true, brace_style: braceStyle });
 
             // Restore escaped <> operator
             documentFormatted = documentFormatted.replace(/[\r\n ]*\s*\/\* beautify preserve:start \*\/<>\/\* beautify preserve:end \*\//g, " <> ");
@@ -43,7 +49,8 @@ export function activate(context: vscode.ExtensionContext) {
 
     //Register CompletitionItemsProvider (Provides suggestions when user types a dot)
     vscode.languages.registerCompletionItemProvider('stnescript-lang', {
-        provideCompletionItems(document: vscode.TextDocument, position: vscode.Position) {
+        provideCompletionItems(document: vscode.TextDocument, position: vscode.Position)
+        {
 
             //Get the text written between the dot and and the last space in the line
             const linePrefix = document.lineAt(position).text.substr(0, position.character);
@@ -52,23 +59,29 @@ export function activate(context: vscode.ExtensionContext) {
             //Split the current line by different chars and check for the shortest last word
             let splitters = [' ', '(', '{', '.'];
             let currentLastWord = "";
-            for (let splitter of splitters) {
+            for (let splitter of splitters)
+            {
                 let wordsOfLine = linePrefix.split(splitter);
-                if (wordsOfLine.length > 0) {
+                if (wordsOfLine.length > 0)
+                {
 
                     //If the splitter is '.', use the second last word because '.' was just typed
                     let lastWord = "";
-                    if (splitter == '.' && wordsOfLine.length > 1) {
+                    if (splitter == '.' && wordsOfLine.length > 1)
+                    {
                         lastWord = wordsOfLine[wordsOfLine.length - 2];
-                    } else {
+                    } else
+                    {
                         lastWord = wordsOfLine[wordsOfLine.length - 1];
                     }
 
                     //Remove the '.' from the end of the word and check if a shorter last word was found
-                    if(splitter != '.') {
+                    if (splitter != '.')
+                    {
                         lastWord = lastWord.slice(0, -1);
                     }
-                    if (lastWord.length < currentLastWord.length || currentLastWord == "") {
+                    if (lastWord.length < currentLastWord.length || currentLastWord == "")
+                    {
                         currentLastWord = lastWord;
                     }
                 }
@@ -83,7 +96,8 @@ export function activate(context: vscode.ExtensionContext) {
 
     //Register CompletitionItemsProvider (Provides suggestions when user types a space)
     vscode.languages.registerCompletionItemProvider('stnescript-lang', {
-        provideCompletionItems(document: vscode.TextDocument, position: vscode.Position) {
+        provideCompletionItems(document: vscode.TextDocument, position: vscode.Position)
+        {
 
             //Get the text written between the space and and the last space in the line
             const linePrefix = document.lineAt(position).text.substr(0, position.character);
@@ -105,12 +119,16 @@ export function activate(context: vscode.ExtensionContext) {
 /**
  * Read available types from the stne.json file and store them
  */
-function LoadTypesFromJSON() {
-    for (let type of data.types) {
+function LoadTypesFromJSON()
+{
+    for (let type of data.types)
+    {
         let members: Array<Member> = [];
-        for (let member of type.members) {
+        for (let member of type.members)
+        {
             let parameters: Array<Param> = [];
-            if (!IsNull(member.params)) {
+            if (!IsNull(member.params))
+            {
                 for (let param of member.params)
                     parameters.push(new Param(param.name, param.type));
             }
@@ -123,7 +141,8 @@ function LoadTypesFromJSON() {
 /**
  * Returns the name of a type for a passed variable name
  */
-function GetTypeForSuspectedVar(text: string, term: string): Type {
+function GetTypeForSuspectedVar(text: string, term: string): Type
+{
 
     //Match the document text to check if the text contains a definition with the variable name
     const regex = new RegExp("Var\\s(" + term + ")\\sAs\\s([Nn]ew\\s)?([a-zA-Z]*)");
@@ -146,7 +165,8 @@ function GetTypeForSuspectedVar(text: string, term: string): Type {
 /**
  * Returns all available types as completition items
  */
-function GetTypeCompletitionItems(): Array<vscode.CompletionItem> {
+function GetTypeCompletitionItems(): Array<vscode.CompletionItem>
+{
 
     //Return all known types
     let items: Array<vscode.CompletionItem> = [];
@@ -158,25 +178,30 @@ function GetTypeCompletitionItems(): Array<vscode.CompletionItem> {
 /**
  * Returns completition items for a type (methods/properties)
  */
-function GetCompletitionItemsForType(type: Type): Array<vscode.CompletionItem> {
+function GetCompletitionItemsForType(type: Type): Array<vscode.CompletionItem>
+{
 
     //Go trouth all known members of the type
     let items: Array<vscode.CompletionItem> = [];
-    for (let member of type.members) {
+    for (let member of type.members)
+    {
 
         //If the member is an attribute, add the attribute name and type to the results
         let item: vscode.CompletionItem;
-        if (member.membertype == "Property" || member.membertype == "Field") {
+        if (member.membertype == "Property" || member.membertype == "Field")
+        {
             item = new vscode.CompletionItem(member.name, vscode.CompletionItemKind.Property);
             item.detail = member.name + ":" + member.type;
         }
         //If the member is a method, add the method to the results
-        else {
+        else
+        {
             item = new vscode.CompletionItem(member.name, vscode.CompletionItemKind.Method);
             item.detail = member.name + "(";
 
             //If the method has any parameters, add them to the item
-            if (member.params.length > 0) {
+            if (member.params.length > 0)
+            {
                 for (let param of member.params)
                     item.detail = item.detail + param.name + ":" + param.type + ",";
                 item.detail = item.detail.slice(0, -1);
@@ -197,7 +222,8 @@ function GetCompletitionItemsForType(type: Type): Array<vscode.CompletionItem> {
 /**
  * Checks if an object is null or undefined
  */
-function IsNull(o: any): boolean {
+function IsNull(o: any): boolean
+{
     if (o == null || o == undefined)
         return true;
     return false;
@@ -206,20 +232,23 @@ function IsNull(o: any): boolean {
 /**
  * Represents a type
  */
-class Type {
+class Type
+{
     constructor(public name: string, public members: Array<Member>) { }
 }
 
 /**
  * Represents a type's member
  */
-class Member {
+class Member
+{
     constructor(public name: string, public membertype: string, public params: Array<Param>, public type: string, public stat: boolean) { }
 }
 
 /**
  * Represents a parameter of a function
  */
-class Param {
+class Param
+{
     constructor(public name: string, public type: string) { }
 }

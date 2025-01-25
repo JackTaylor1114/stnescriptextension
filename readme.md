@@ -20,6 +20,7 @@ The following functions are available for text files with `.stne` extension:
 * Special icon 
 * Syntax highlighting
 * Auto Formatting (default: `ALT + SHIFT + F`)
+* Basic autocomplete
 
 ## Configuration
 

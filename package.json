@@ -2,7 +2,7 @@
     "name": "stnescript-support",
     "displayName": "STNE Script Support for Visual Studio Code",
     "description": "Provides formatting, syntax highlighting and suggestions for .stne-Files",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "publisher": "STNE",
     "license": "MIT",
     "repository": {
@@ -45,7 +45,24 @@
                 "label": "STNE",
                 "path": "./theme/setiicons.json"
             }
-        ]
+        ],
+        "configuration": {
+            "title": "STNE Script Support",
+            "properties": {
+                "scriptSupportSTNE.indentSize": {
+                    "type": "string",
+                    "enum": ["2", "4"],
+                    "default": "2",
+                    "description": "Indentaion Size"
+                },
+                "scriptSupportSTNE.braceStyle": {
+                    "type": "string",
+                    "enum": ["expand", "preserve-inline"],
+                    "default": "expand",
+                    "description": "Style for opening braces"
+                }
+            }
+        }
     },
     "scripts": {
         "build": "tsc -p .",
