@@ -1,18 +1,19 @@
 # STNE Script Extension
 
-This extension provices syntax highlighting, formatting and basic autocomplete for STNE scripts in VS Code
+This extension provides syntax highlighting, formatting and basic autocomplete for STNE scripts in VS Code
 
 ## Build
 
+Requires VS Code and Node.js to be installed on your machine\
 Use the following commands to download and build the project:
 ```
-git clone
+git clone https://github.com/JackTaylor1114/stnescriptextension.git
 npm install
 npm build
 ```
 
-Test the extension by using the `Launch Extension` launch script in VS Code
-The default launch configuration will automatically build the project
+Test the extension by running the `Launch` script in VS Code\
+The default launch configuration will automatically build the project.
 
 ## Functions
 
