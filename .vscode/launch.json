@@ -1,17 +1,19 @@
-// A launch configuration that compiles the extension and then opens it inside a new window
+//Launch the extension in a new window with the Extension Host
 {
     "version": "2.0.0",
     "configurations": [
         {
-            "name": "Launch Extension",
+            "name": "Launch",
             "type": "extensionHost",
             "request": "launch",
             "runtimeExecutable": "${execPath}",
-            "args": ["--extensionDevelopmentPath=${workspaceRoot}" ],
+            "args": [
+                "--extensionDevelopmentPath=${workspaceRoot}"
+            ],
             "stopOnEntry": false,
             "sourceMaps": true,
             "outDir": "${workspaceRoot}/build/src",
-            "preLaunchTask": "npm"
+            "preLaunchTask": "npm" //Build before Launch
         }
     ]
 }
