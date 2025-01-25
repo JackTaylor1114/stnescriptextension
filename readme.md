@@ -12,6 +12,7 @@ npm build
 ```
 
 Test the extension by using the `Launch Extension` launch script in VS Code
+The default launch configuration will automatically build the project
 
 ## Functions
 
