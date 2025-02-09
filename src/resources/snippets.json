@@ -1,0 +1,25 @@
+{
+  "WriteLine": {
+    "prefix": "Write",
+    "body": [
+      "WriteLine('${1:text}');"
+    ],
+    "description": "Write Output Line"
+  },
+  "Variable Declaration": {
+    "prefix": "Var",
+    "body": [
+      "Var ${1:name} As ${2:Class};"
+    ],
+    "description": "Variable Declaration"
+  },
+  "For Loop": {
+    "prefix": "For",
+    "body": [
+      "For(Each ${1:item} In ${2:collection})",
+      "{",
+      "}"
+    ],
+    "description": "For Each Loop"
+  }
+}

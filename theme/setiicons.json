@@ -1695,7 +1695,7 @@
 		"npm-debug.log": "_npm_ignored"
 	},
 	"languageIds": {
-        "stnescript-lang": "_ejs",
+		"stnescript-lang": "_ejs",
 		"bat": "_windows",
 		"clojure": "_clojure",
 		"coffeescript": "_coffee",
@@ -1977,7 +1977,7 @@
 			"htaccess": "_config_light",
 			"key": "_lock_light",
 			"cert": "_lock_light",
-            "ds_store": "_ignored_light"
+			"ds_store": "_ignored_light"
 		},
 		"languageIds": {
 			"bat": "_windows_light",

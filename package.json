@@ -46,18 +46,30 @@
                 "path": "./theme/setiicons.json"
             }
         ],
+        "snippets": [
+            {
+                "language": "stnescript-lang",
+                "path": "./src/resources/snippets.json"
+            }
+        ],
         "configuration": {
             "title": "STNE Script Support",
             "properties": {
                 "scriptSupportSTNE.indentSize": {
                     "type": "string",
-                    "enum": ["2", "4"],
+                    "enum": [
+                        "2",
+                        "4"
+                    ],
                     "default": "2",
-                    "description": "Indentaion Size"
+                    "description": "Indentation Size"
                 },
                 "scriptSupportSTNE.braceStyle": {
                     "type": "string",
-                    "enum": ["expand", "preserve-inline"],
+                    "enum": [
+                        "expand",
+                        "preserve-inline"
+                    ],
                     "default": "expand",
                     "description": "Style for opening braces"
                 }

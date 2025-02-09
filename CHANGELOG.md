@@ -1,6 +1,7 @@
 ## 1.0.4
 
 * Users can now choose an indent size and brace style for auto formatting
+* Added support for code snippets (ForEach loop, WriteLine, ...)
 
 ## 1.0.3
 
