@@ -2,7 +2,7 @@
 
 //Imports
 import * as vscode from 'vscode';
-import { Logic } from './functions';
+import * as functions from './functions';
 
 const SCRIPT_LANGUAGE = 'stnescript-lang';
 const CONFIG_NAMESPACE = 'scriptSupportSTNE';
@@ -14,7 +14,7 @@ let beautify_js = require('js-beautify');
 export function activate(context: vscode.ExtensionContext)
 {
   //Read the available types that will be used for completion suggestions
-  Logic.LoadAvailableTypes();
+  functions.LoadAvailableTypes();
 
   //Register provider for Document Formatting
   vscode.languages.registerDocumentFormattingEditProvider(SCRIPT_LANGUAGE, {
@@ -86,7 +86,7 @@ export function activate(context: vscode.ExtensionContext)
       }
 
       //Return the completition suggestions
-      return Logic.GetCompletitionItemsForType(Logic.GetTypeForSuspectedVar(docText, currentLastWord));
+      return functions.GetCompletitionItemsForType(functions.GetTypeForSuspectedVar(docText, currentLastWord));
     }
   }, '.');
 
@@ -103,7 +103,7 @@ export function activate(context: vscode.ExtensionContext)
       if (word != "New" && word != "As") return undefined;
 
       //Return the completition suggestions
-      return Logic.GetTypeCompletitionItems();
+      return functions.GetTypeCompletitionItems();
     }
   }, ' ');
 }
