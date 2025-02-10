@@ -1,6 +1,6 @@
 # STNE Script Support for Visual Studio Code
 
-The extension provides various aids for creating and editing <a href="game.stne.net">STNE</a> scripts.
+The extension provides various aids for creating and editing <a href="https:\\game.stne.net">STNE</a> scripts.
 
 ## Table of Contents  
 1. [Features](#features)  
@@ -17,7 +17,8 @@ Default keybinding: `ALT + SHIFT + F`
 
 #### Syntax Highlighting
 
-Your STNE scripts will feature complete syntax highlighting, coveringkeywords, comments and all other elements. 
+Your STNE scripts will feature complete syntax highlighting, coveringkeywords, comments and all other elements: 
+![Syntax Highlighting](https://raw.githubusercontent.com/JackTaylor1114/stnescriptextension/refs/heads/master/img/syntaxhighlight.png)
 
 #### Completion Suggestions
 
@@ -26,9 +27,15 @@ The extension provides completion suggestions when you code:
 
 #### Code Snippets
 
-TODO
+You get the option to insert code snippets such as `ForEach` or variable declarations when you type certain keywords: 
+![Syntax Highlighting](https://raw.githubusercontent.com/JackTaylor1114/stnescriptextension/refs/heads/master/img/snippets.png)
 
 ## Installation
+
+* Option 1: 
+  * Open Visual Studio Code, search for `STNE Script Support` and choose `Install`
+* Option2:
+  * Visit the <a href="https://marketplace.visualstudio.com/items?itemName=STNE.stnescript-support">Visual Studio Marketplace</a> and install the extension
 
 ## Usage
 

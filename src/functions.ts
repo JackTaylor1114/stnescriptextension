@@ -3,9 +3,11 @@ import { Type, Member, Param, MemberFunction } from './definitions';
 import * as data from './resources/objectexplorer.json'
 import * as vscode from 'vscode';
 
+let Types: Array<Type> = [];
+
 /**
-   * Read types from JSON file and store them
-   */
+ * Read types from JSON file and store them
+ */
 export function LoadAvailableTypes(): void
 {
   for (let type of data.types)
@@ -20,7 +22,7 @@ export function LoadAvailableTypes(): void
       }
       members.push(new Member(member.name, <MemberFunction>member.membertype, parameters, member.type, member.static));
     }
-    this.Types.push(new Type(type.name, members));
+    Types.push(new Type(type.name, members));
   }
 }
 
@@ -39,7 +41,7 @@ export function GetTypeForSuspectedVar(documentText: string, term: string): Type
   if (match == undefined || match == null) return undefined; //No match found
   let name = match[3];
   if (name == undefined || name == null) return undefined; //Variable name does not match
-  let type = this.Types.find(t => t.name == name);
+  let type = Types.find(t => t.name == name);
   if (type == undefined || type == null) return undefined; //Type is unknown
   return type;
 }
@@ -51,7 +53,7 @@ export function GetTypeForSuspectedVar(documentText: string, term: string): Type
 export function GetTypeCompletitionItems(): Array<vscode.CompletionItem>
 {
   let items: Array<vscode.CompletionItem> = [];
-  for (let type of this.Types) items.push(new vscode.CompletionItem(type.name, vscode.CompletionItemKind.Class))
+  for (let type of Types) items.push(new vscode.CompletionItem(type.name, vscode.CompletionItemKind.Class))
   return items;
 }
 
