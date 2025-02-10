@@ -1,7 +1,7 @@
 {
     "name": "stnescript-support",
     "displayName": "STNE Script Support for Visual Studio Code",
-    "description": "Provides formatting, syntax highlighting and suggestions for .stne-Files",
+    "description": "Provides formatting, syntax highlighting and suggestions for .stne files",
     "version": "1.0.4",
     "publisher": "STNE",
     "license": "MIT",
@@ -9,7 +9,11 @@
         "type": "git",
         "url": "https://github.com/JackTaylor1114/stnescriptextension.git"
     },
-    "icon": "img/menuicon.png",
+    "bugs": {
+        "url": "https://github.com/JackTaylor1114/stnescriptextension/issues"
+    },
+    "icon": "img/icon.png",
+    "pricing": "Free",
     "engines": {
         "vscode": "^1.52.0"
     },
