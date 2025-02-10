@@ -42,7 +42,7 @@ You get the option to insert code snippets such as `ForEach` or variable declara
 To use the extension, open a workspace in Visual Studio Code and create a text file with a `.stne` extension.\
 Visual Studio Code will automatically detect `STNE Script` as the programming language in this file. 
 
-ℹ️ You can configure your `brace style` and `indentation size` under **`File » Preferences » STNE Script Support`**
+ℹ️ You can configure `brace style` and `indentation` under **`File » Preferences » STNE Script Support`**
 
 ## Build
 
