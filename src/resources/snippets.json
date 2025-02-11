@@ -13,13 +13,53 @@
     ],
     "description": "Variable Declaration"
   },
-  "For Loop": {
+  "Variable Instantiation": {
+    "prefix": "Var",
+    "body": [
+      "Var ${1:name} As New ${2:Class}($0);"
+    ],
+    "description": "Variable Instantiation"
+  },
+  "ForEach Loop": {
     "prefix": "For",
     "body": [
       "For(Each ${1:item} In ${2:collection})",
       "{",
+      "  $3",
       "}"
     ],
-    "description": "For Each Loop"
+    "description": "ForEach Loop"
+  },
+  "For Loop": {
+    "prefix": "For",
+    "body": [
+      "Var i As Integer;",
+      "For(i = 0 To ${1:index})",
+      "{",
+      "  $2",
+      "}"
+    ],
+    "description": "For Loop"
+  },
+  "Enumerator": {
+    "prefix": "Enumerate",
+    "body": [
+      "Var e${1} As New C${1|Fleet,Ship,Colony|}Enumerator ();",
+      "While (e${1}.Next())",
+      "{",
+      "  e${1}$0;",
+      "}"
+    ],
+    "description": "Enumeration over Fleets/Ships/Colonies"
+  },
+  "Function": {
+    "prefix": "Func",
+    "body": [
+      "Function ${1:name}()",
+      "{",
+      "  $0",
+      "}"
+    ],
+    "description": "Enumeration over Fleets/Ships/Colonies"
   }
 }
