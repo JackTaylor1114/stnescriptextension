@@ -27,27 +27,29 @@ The extension provides completion suggestions when you code:
 
 #### Code Snippets
 
-You get the option to insert code snippets such as `ForEach` or variable declarations when you type certain keywords: 
+You can insert code snippets such as `ForEach` or variable declarations when you type certain keywords: 
 ![Syntax Highlighting](https://raw.githubusercontent.com/JackTaylor1114/stnescriptextension/refs/heads/master/img/snippets.png)
 
 ## Installation
 
-* Option 1: 
-  * Open Visual Studio Code, search for `STNE Script Support` and choose `Install`
-* Option2:
-  * Visit the <a href="https://marketplace.visualstudio.com/items?itemName=STNE.stnescript-support">Visual Studio Marketplace</a> and install the extension
+* Option A: 
+  * Open Visual Studio Code and go to view `Extensions`
+  * Search for `STNE Script Support` and choose `Install`
+* Option B:
+  * Visit the <a href="https://marketplace.visualstudio.com/items?itemName=STNE.stnescript-support">Visual Studio Marketplace</a> page of the extension 
+  * Choose `Install` and then `Open Visual Studio Code`
 
 ## Usage
 
 To use the extension, open a workspace in Visual Studio Code and create a text file with a `.stne` extension.\
 Visual Studio Code will automatically detect `STNE Script` as the programming language in this file. 
 
-ℹ️ You can configure `brace style` and `indentation` under **`File » Preferences » STNE Script Support`**
+ℹ️ You can configure `brace style` and `indentation size` in **`File » Preferences » STNE Script Support`**
 
 ## Build
 
-To build the extension yourself, you need Visual Studio Code and Node.js on your machine.\
-Use the following commands to download the code and build the project:
+To build the extension yourself, you need `Visual Studio Code` and `Node.js` installed on your machine.\
+Use the following commands to download the code and install dependencies:
 ```
 git clone https://github.com/JackTaylor1114/stnescriptextension.git
 npm install
