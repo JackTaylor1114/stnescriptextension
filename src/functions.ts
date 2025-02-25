@@ -27,6 +27,28 @@ export function LoadAvailableTypes(): void
 }
 
 /**
+ * Check if a function is present in the document and get its return type
+ * @param token the name of the function
+ * @param documentContent the text content of the script file
+ * @returns a flag if the function is present and the functions return type if possible
+ */
+export function CheckIfDocumentContainsFunction(token: string, documentText: string): { isFunction: boolean; returnType?: string }
+{
+  const functionDefinitionRegex = /Function\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\([^)]*\)(?:\s+As\s+([a-zA-Z_$][a-zA-Z0-9_$]*))?/g;
+  let match: RegExpExecArray;
+  while ((match = functionDefinitionRegex.exec(documentText)) !== null)
+  {
+    const functionName = match[1];
+    if (functionName === token)
+    {
+      const returnType = match[2];
+      return { isFunction: true, returnType };
+    }
+  }
+  return { isFunction: false };
+}
+
+/**
  * Get the type of a variable if it is defined in the document
  * @param documentText the text content of the script file
  * @param term the name of the possible variale
@@ -47,10 +69,10 @@ export function GetTypeForSuspectedVar(documentText: string, term: string): Type
 }
 
 /**
- * Get all known types as completion suggestions
- * @returns an array of completion items for VS Code
+ * Get all known types as completion items
+ * @returns an array of completion items
  */
-export function GetTypeCompletitionItems(): Array<vscode.CompletionItem>
+export function GetAllTypesAsCompletionItems(): Array<vscode.CompletionItem>
 {
   let items: Array<vscode.CompletionItem> = [];
   for (let type of Types) items.push(new vscode.CompletionItem(type.name, vscode.CompletionItemKind.Class))
@@ -59,10 +81,10 @@ export function GetTypeCompletitionItems(): Array<vscode.CompletionItem>
 
 /**
  * Get all known members of a type as completion suggestions
- * @param type the type of which the completion suggestions are needed
- * @returns an array of completion items for VS Code
+ * @param type the type of which completion suggestions are needed
+ * @returns an array of completion items
  */
-export function GetCompletitionItemsForType(type: Type): Array<vscode.CompletionItem>
+export function GetCompletionItemsForType(type: Type): Array<vscode.CompletionItem>
 {
   //Go trough all known members of the type
   let items: Array<vscode.CompletionItem> = [];

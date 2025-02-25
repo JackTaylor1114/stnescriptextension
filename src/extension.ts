@@ -50,43 +50,55 @@ export function activate(context: vscode.ExtensionContext)
   vscode.languages.registerCompletionItemProvider(SCRIPT_LANGUAGE, {
     provideCompletionItems(document: vscode.TextDocument, position: vscode.Position)
     {
-      //Get the text written between the dot and and the last space in the line
-      let linePrefix = document.lineAt(position).text.substr(0, position.character);
-      let docText = document.getText();
+      //Get the content of the current line up to the current position
+      let documentContent = document.getText();
+      let lineContent = document.lineAt(position).text.substring(0, position.character);
+      if (lineContent.slice(-1) != '.') return undefined;
 
-      //Split the current line by different chars and check for the shortest last word
-      let splitters = [' ', '(', '{', '.'];
-      let currentLastWord = "";
-      for (let splitter of splitters)
+      // Get the member access in the current line
+      // [a-zA-Z_$][a-zA-Z0-9_$]* -> match an identifier (variable name or function name)
+      // (\.[a-zA-Z_$][a-zA-Z0-9_$]*|\([^()]*\))* -> match zero or more occurrences of either:
+      // a dot followed by a valid identifier OR a function call with parameters
+      // \([^()]*\) -> match parameters in function calls
+      // \. -> matches the final dot that triggers the member access
+      // Limitations: nested function calls as parameters will not be detected properly
+      let match = lineContent.match(/([a-zA-Z_$][a-zA-Z0-9_$]*(\.[a-zA-Z_$][a-zA-Z0-9_$]*|\([^()]*\))*\.)/);
+      if (!match) return undefined;
+
+      //The member access needs to be resolved from start to finish (left to right)
+      let parts: string[] = match[0].split('.');
+
+      //Check the first part of the member access (root) 
+      let root = parts[0];
+
+      //Check if the root is a function call - if not, we assume it is a variable
+      let functionMatch = root.match(/^[a-zA-Z_$][a-zA-Z0-9_$]*\s*\([^)]*\)$/);
+      if (functionMatch)
       {
-        let wordsOfLine = linePrefix.split(splitter);
-        if (wordsOfLine.length > 0)
+        //Find the function in the document by its name and get the return type
+        let check = functions.CheckIfDocumentContainsFunction(functionMatch[0].substring(0, functionMatch[0].indexOf('(')), documentContent);
+        if (check.isFunction && check.returnType !== null)
         {
-          //If the splitter is '.', use the second last word because '.' was just typed
-          let lastWord = "";
-          if (splitter == '.' && wordsOfLine.length > 1)
-          {
-            lastWord = wordsOfLine[wordsOfLine.length - 2];
-          }
-          else
-          {
-            lastWord = wordsOfLine[wordsOfLine.length - 1];
-          }
 
-          //Remove the '.' from the end of the word and check if a shorter last word was found
-          if (splitter != '.')
-          {
-            lastWord = lastWord.slice(0, -1);
-          }
-          if (lastWord.length < currentLastWord.length || currentLastWord == "")
-          {
-            currentLastWord = lastWord;
-          }
+        }
+        else
+        {
+          return undefined;
         }
       }
+      else
+      {
+        //TODO: find variable type (only in current scope)
+      }
 
+
+
+
+
+
+      return undefined;
       //Return the completition suggestions
-      return functions.GetCompletitionItemsForType(functions.GetTypeForSuspectedVar(docText, currentLastWord));
+      //return functions.GetCompletionItemsForType(functions.GetTypeForSuspectedVar(documentContent, currentLastWord));
     }
   }, '.');
 
@@ -103,7 +115,7 @@ export function activate(context: vscode.ExtensionContext)
       if (word != "New" && word != "As") return undefined;
 
       //Return the completition suggestions
-      return functions.GetTypeCompletitionItems();
+      return functions.GetAllTypesAsCompletionItems();
     }
   }, ' ');
 }
