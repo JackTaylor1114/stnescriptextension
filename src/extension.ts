@@ -56,10 +56,14 @@ export function activate(context: vscode.ExtensionContext)
       if (lineContent.slice(-1) != '.') return undefined;
 
       // Get the member access in the current line
-      // [a-zA-Z_$][a-zA-Z0-9_$]* -> match an identifier (variable name or function name)
-      // (\.[a-zA-Z_$][a-zA-Z0-9_$]*|\([^()]*\))* -> match zero or more occurrences of either:
-      // a dot followed by a valid identifier OR a function call with parameters
-      // \([^()]*\) -> match parameters in function calls
+      // [a-zA-Z_$][a-zA-Z0-9_$]* 
+      //    -> match an identifier (variable name or function name)
+      // (\.[a-zA-Z_$][a-zA-Z0-9_$]*|\([^()]*\))* 
+      //    -> match zero or more occurrences of either:
+      //    * a dot followed by a valid identifier OR 
+      //    * a function call with parameters
+      // \([^()]*\) 
+      //    -> match parameters in function calls
       // \. -> matches the final dot that triggers the member access
       // Limitations: nested function calls as parameters will not be detected properly
       let match = lineContent.match(/([a-zA-Z_$][a-zA-Z0-9_$]*(\.[a-zA-Z_$][a-zA-Z0-9_$]*|\([^()]*\))*\.)/);
