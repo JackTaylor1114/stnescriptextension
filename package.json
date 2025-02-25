@@ -82,11 +82,14 @@
     },
     "scripts": {
         "build": "tsc -p .",
-        "compile": "tsc -p ."
+        "compile": "tsc -p .",
+        "test": "vscode-test"
     },
     "devDependencies": {
         "@types/node": "*",
         "@types/vscode": "^1.52.0",
+        "@vscode/test-cli": "^0.0.10",
+        "@vscode/test-electron": "^2.4.1",
         "typescript": "^4.2.4"
     },
     "dependencies": {

@@ -57,3 +57,11 @@ npm install
 
 Test the extension by running the `Launch` script in Visual Studio Code.\
 The default launch configuration will `npm build` the project before launch.
+
+## Tests
+
+```
+npm install --save-dev @vscode/test-cli @vscode/test-electron
+npm run build
+npm run test
+```
