@@ -20,9 +20,6 @@
     "categories": [
         "Programming Languages"
     ],
-    "activationEvents": [
-        "onLanguage:stnescript-lang"
-    ],
     "main": "./build/src/extension",
     "contributes": {
         "languages": [
@@ -84,14 +81,16 @@
     "scripts": {
         "build": "tsc -p .",
         "compile": "tsc -p .",
-        "test": "vscode-test"
+        "list": "npm list --depth=0 --json",
+        "test": "ts-mocha test/*test.ts"
     },
     "devDependencies": {
-        "@types/node": "*",
+        "@types/mocha": "^10.0.10",
+        "@types/node": "^22.13.5",
         "@types/vscode": "^1.52.0",
-        "@vscode/test-cli": "^0.0.10",
-        "@vscode/test-electron": "^2.4.1",
-        "typescript": "^4.2.4"
+        "mocha": "^11.1.0",
+        "ts-mocha": "^11.1.0",
+        "typescript": "^4.9.5"
     },
     "dependencies": {
         "js-beautify": "^1.13.5"
