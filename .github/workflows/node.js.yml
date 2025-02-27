@@ -9,6 +9,7 @@ on:
       - "master"
       - "develop"
       - "overhaul*"
+      - "feature/*"
   pull_request:
     branches: [ "master", "develop" ]
 
