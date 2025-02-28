@@ -10,12 +10,16 @@ suite('Orion Test Suite', () =>
     let token = "";
 
     let result = functions.CheckIfDocumentContainsFunction(token, document);
-    let expected = { isFunction: false, returnType: undefined }
-    assert.equal(result, expected);
+    assert.equal(result.isFunction, false);
+    assert.equal(result.returnType, undefined);
+    done();
   })
 
   test('02: CheckIfDocumentContainsFunction2', function (done)
   {
-    assert.equal(1, 1);
+    let result = functions.CheckIfDocumentContainsFunction("qestion", "Function qestion(orion is, the best) As lie");
+    assert.equal(result.isFunction, true);
+    assert.equal(result.returnType, "lie");
+    done();
   })
 });

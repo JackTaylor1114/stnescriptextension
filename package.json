@@ -84,6 +84,7 @@
     "scripts": {
         "build": "tsc -p .",
         "compile": "tsc -p .",
+        "pretest": "tsc -p .",
         "test": "vscode-test"
     },
     "devDependencies": {
