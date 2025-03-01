@@ -45,7 +45,7 @@ export class Param
  */
 export enum MemberFunction
 {
-  None = 0,
+  None = "",
   Constructor = "Constructor",
   Property = "Property",
   Method = "Method",

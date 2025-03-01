@@ -20,9 +20,6 @@
     "categories": [
         "Programming Languages"
     ],
-    "activationEvents": [
-        "onLanguage:stnescript-lang"
-    ],
     "main": "./build/src/extension",
     "contributes": {
         "languages": [
@@ -34,7 +31,11 @@
                 "extensions": [
                     "stne"
                 ],
-                "configuration": "./syntax/language-configuration.json"
+                "configuration": "./syntax/language-configuration.json",
+                "icon": {
+                    "light": "./img/stnescript-icon.png",
+                    "dark": "./img/stnescript-icon.png"
+                }
             }
         ],
         "grammars": [
@@ -42,13 +43,6 @@
                 "language": "stnescript-lang",
                 "scopeName": "source.stne",
                 "path": "./syntax/stnescript-lang.grammar.json"
-            }
-        ],
-        "iconThemes": [
-            {
-                "id": "id",
-                "label": "STNE",
-                "path": "./theme/setiicons.json"
             }
         ],
         "snippets": [
