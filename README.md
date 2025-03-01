@@ -7,6 +7,7 @@ The extension provides various aids for creating and editing <a href="https:\\ga
 2. [Installation](#installation)
 3. [Usage](#usage)
 4. [Build](#build)
+5. [Tests](#tests)
 
 ## Features
 
@@ -60,8 +61,7 @@ The default launch configuration will `npm build` the project before launch.
 
 ## Tests
 
+To run unit tests for the project, use the following command:
 ```
-npm install --save-dev @vscode/test-cli @vscode/test-electron
-npm run build
 npm run test
 ```
