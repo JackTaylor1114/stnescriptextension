@@ -3,13 +3,14 @@ import { Type, Member, Param, MemberFunction } from './definitions';
 import * as data from './resources/objectexplorer.json'
 import * as vscode from 'vscode';
 
-let Types: Array<Type> = [];
+export let AvailableTypes: Array<Type> = [];
 
 /**
  * Read types from JSON file and store them
  */
 export function LoadAvailableTypes(): void
 {
+  AvailableTypes = [];
   for (let type of data.types)
   {
     let members: Array<Member> = [];
@@ -22,8 +23,33 @@ export function LoadAvailableTypes(): void
       }
       members.push(new Member(member.name, <MemberFunction>member.membertype, parameters, member.type, member.static));
     }
-    Types.push(new Type(type.name, members));
+    AvailableTypes.push(new Type(type.name, members));
   }
+}
+
+/**
+ * Get the member access typed in a line of the document
+ * @param line the line of code from the document
+ * @returns the member access split into individual parts as an array
+ */
+export function GetMemberAccessFromLineOfCode(line: string): Array<string>
+{
+  // Get the member access in the current line (e.g. "someObjekt.someFunction().")
+  // [a-zA-Z_$][a-zA-Z0-9_$]* 
+  //    -> match an identifier (variable name or function name)
+  // (\.[a-zA-Z_$][a-zA-Z0-9_$]*|\([^()]*\))* 
+  //    -> match zero or more occurrences of either:
+  //    * a dot followed by a valid identifier OR 
+  //    * a function call with parameters
+  // \([^()]*\) 
+  //    -> match parameters in function calls
+  // \. -> matches the final dot that triggers the member access
+  // Limitations: nested function calls as parameters will not be detected properly
+  let match = line.match(/([a-zA-Z_$][a-zA-Z0-9_$]*(\.[a-zA-Z_$][a-zA-Z0-9_$]*|\([^()]*\))*\.)/);
+  if (!match) return undefined;
+
+  //Return the individual parts of the member access
+  return match[0].split('.');
 }
 
 /**
@@ -49,24 +75,33 @@ export function CheckIfDocumentContainsFunction(token: string, documentText: str
 }
 
 /**
- * Get the type of a variable if it is defined in the document
- * @param documentText the text content of the script file
- * @param term the name of the possible variale
- * @returns the type of the variable or undefined
+ * Check if a variable definition is present in the scope and get its type
+ * @param token the name of the variable
+ * @param scopeText the text content of the current scope
+ * @returns a flag if the variable definition is present and its type if possible
  */
-export function GetTypeForSuspectedVar(documentText: string, term: string): Type
+export function CheckIfScopeContainsVariable(token: string, scopeText: string): { isVariable: boolean; type?: string }
 {
-  //Match the regex to check if the document text contains a variable definition with the term
-  const regex = new RegExp("Var\\s(" + term + ")\\sAs\\s([Nn]ew\\s)?([a-zA-Z]*)");
-  let match = documentText.match(regex);
+  let match = scopeText.match("Var\\s(" + token + ")\\sAs\\s([Nn]ew\\s)?([a-zA-Z]*)");
 
-  if (match == undefined || match == null) return undefined; //No match found
+  if (match == undefined || match == null) return { isVariable: false }; //No match found
   let name = match[3];
-  if (name == undefined || name == null) return undefined; //Variable name does not match
-  let type = Types.find(t => t.name == name);
-  if (type == undefined || type == null) return undefined; //Type is unknown
-  return type;
+  if (name == undefined || name == null) return { isVariable: false }; //Variable name does not match
+  return { isVariable: true, type: name };
 }
+
+/**
+ * Check if a parameter is present in the scope and get its type
+ * @param token the name of the variable
+ * @param scopeText the text content of the current scope
+ * @returns a flag if the parameter is present and its type if possible
+ */
+export function CheckIfScopeContainsParameter(token: string, scopeText: string): { isParameter: boolean; type?: string }
+{
+  //TODO
+  return { isParameter: false };
+}
+
 
 /**
  * Get all known types as completion items
@@ -75,7 +110,7 @@ export function GetTypeForSuspectedVar(documentText: string, term: string): Type
 export function GetAllTypesAsCompletionItems(): Array<vscode.CompletionItem>
 {
   let items: Array<vscode.CompletionItem> = [];
-  for (let type of Types) items.push(new vscode.CompletionItem(type.name, vscode.CompletionItemKind.Class))
+  for (let type of AvailableTypes) items.push(new vscode.CompletionItem(type.name, vscode.CompletionItemKind.Class))
   return items;
 }
 

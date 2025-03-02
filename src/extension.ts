@@ -3,6 +3,7 @@
 //Imports
 import * as vscode from 'vscode';
 import * as functions from './functions';
+import { Type } from './definitions';
 
 const SCRIPT_LANGUAGE = 'stnescript-lang';
 const CONFIG_NAMESPACE = 'scriptSupportSTNE';
@@ -55,35 +56,25 @@ export function activate(context: vscode.ExtensionContext)
       let lineContent = document.lineAt(position).text.substring(0, position.character);
       if (lineContent.slice(-1) != '.') return undefined;
 
-      // Get the member access in the current line
-      // [a-zA-Z_$][a-zA-Z0-9_$]* 
-      //    -> match an identifier (variable name or function name)
-      // (\.[a-zA-Z_$][a-zA-Z0-9_$]*|\([^()]*\))* 
-      //    -> match zero or more occurrences of either:
-      //    * a dot followed by a valid identifier OR 
-      //    * a function call with parameters
-      // \([^()]*\) 
-      //    -> match parameters in function calls
-      // \. -> matches the final dot that triggers the member access
-      // Limitations: nested function calls as parameters will not be detected properly
-      let match = lineContent.match(/([a-zA-Z_$][a-zA-Z0-9_$]*(\.[a-zA-Z_$][a-zA-Z0-9_$]*|\([^()]*\))*\.)/);
-      if (!match) return undefined;
+      //Get the member access typed in the current line
+      let parts: string[] = functions.GetMemberAccessFromLineOfCode(lineContent);
+      if (parts == undefined || parts.length < 1) return undefined;
 
       //The member access needs to be resolved from start to finish (left to right)
-      let parts: string[] = match[0].split('.');
-
       //Check the first part of the member access (root) 
+      //There are 3 possibilities: the root could be a function call, a variable or a parameter
+      let rootType: Type = null;
       let root = parts[0];
+      let functionMatch = root.match(/^[a-zA-Z_$][a-zA-Z0-9_$]*\s*\([^)]*\)$/)
 
-      //Check if the root is a function call - if not, we assume it is a variable
-      let functionMatch = root.match(/^[a-zA-Z_$][a-zA-Z0-9_$]*\s*\([^)]*\)$/);
+      //Root is a function call
       if (functionMatch)
       {
         //Find the function in the document by its name and get the return type
-        let check = functions.CheckIfDocumentContainsFunction(functionMatch[0].substring(0, functionMatch[0].indexOf('(')), documentContent);
-        if (check.isFunction && check.returnType !== null)
+        let functionCheck = functions.CheckIfDocumentContainsFunction(functionMatch[0].substring(0, functionMatch[0].indexOf('(')), documentContent);
+        if (functionCheck.isFunction && functionCheck.returnType !== undefined)
         {
-
+          rootType = functions.AvailableTypes.find(t => t.name == functionCheck.returnType);
         }
         else
         {
@@ -92,17 +83,37 @@ export function activate(context: vscode.ExtensionContext)
       }
       else
       {
-        //TODO: find variable type (only in current scope)
+        //If root is not a function, it could be a variable or parameter
+        //We cant distinguish between them just by the name or syntax
+        //Therefore we just have to "try" and find the reference somwhere in the document 
+
+        //TODO: Actually check only the current scope instead of the whole document content
+        let variableCheck = functions.CheckIfScopeContainsVariable(root, documentContent);
+        if (variableCheck.isVariable && variableCheck.type !== undefined)
+        {
+          rootType = functions.AvailableTypes.find(t => t.name == variableCheck.type);
+        }
+        else
+        {
+          //TODO: Actually check only the current scope instead of the whole document content
+          let parameterCheck = functions.CheckIfScopeContainsParameter(root, documentContent);
+          if (parameterCheck.isParameter && parameterCheck.type !== undefined) 
+          {
+            rootType = functions.AvailableTypes.find(t => t.name == parameterCheck.type);
+          }
+          else
+          {
+            return undefined;
+          }
+        }
       }
 
+      if (rootType == null || rootType == undefined) return undefined;
 
-
-
-
+      //TODO: Jetzt ist der Typ des 1. MemberAccess in der Kette bekannt
+      //Nun mit einer Schleife von links nach rechts auflösen
 
       return undefined;
-      //Return the completition suggestions
-      //return functions.GetCompletionItemsForType(functions.GetTypeForSuspectedVar(documentContent, currentLastWord));
     }
   }, '.');
 
