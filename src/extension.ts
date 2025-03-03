@@ -15,7 +15,7 @@ let beautify_js = require('js-beautify');
 export function activate(context: vscode.ExtensionContext)
 {
   //Read the available types that will be used for completion suggestions
-  functions.LoadAvailableTypes();
+  functions.LoadAvailableTypes('./resources/objectexplorer.json');
 
   //Register provider for Document Formatting
   vscode.languages.registerDocumentFormattingEditProvider(SCRIPT_LANGUAGE, {
@@ -57,15 +57,15 @@ export function activate(context: vscode.ExtensionContext)
       if (lineContent.slice(-1) != '.') return undefined;
 
       //Get the member access typed in the current line
-      let parts: string[] = functions.GetMemberAccessFromLineOfCode(lineContent);
-      if (parts == undefined || parts.length < 1) return undefined;
+      let memberAccessParts: string[] = functions.GetMemberAccessFromLineOfCode(lineContent);
+      if (memberAccessParts == undefined || memberAccessParts.length < 1) return undefined;
 
       //The member access needs to be resolved from start to finish (left to right)
       //Check the first part of the member access (root) 
       //There are 3 possibilities: the root could be a function call, a variable or a parameter
       let rootType: Type = null;
-      let root = parts[0];
-      let functionMatch = root.match(/^[a-zA-Z_$][a-zA-Z0-9_$]*\s*\([^)]*\)$/)
+      let rootMember = memberAccessParts[0];
+      let functionMatch = rootMember.match(/^[a-zA-Z_$][a-zA-Z0-9_$]*\s*\([^)]*\)$/)
 
       //Root is a function call
       if (functionMatch)
@@ -88,7 +88,7 @@ export function activate(context: vscode.ExtensionContext)
         //Therefore we just have to "try" and find the reference somwhere in the document 
 
         //TODO: Actually check only the current scope instead of the whole document content
-        let variableCheck = functions.CheckIfScopeContainsVariable(root, documentContent);
+        let variableCheck = functions.CheckIfScopeContainsVariable(rootMember, documentContent);
         if (variableCheck.isVariable && variableCheck.type !== undefined)
         {
           rootType = functions.AvailableTypes.find(t => t.name == variableCheck.type);
@@ -96,7 +96,7 @@ export function activate(context: vscode.ExtensionContext)
         else
         {
           //TODO: Actually check only the current scope instead of the whole document content
-          let parameterCheck = functions.CheckIfScopeContainsParameter(root, documentContent);
+          let parameterCheck = functions.CheckIfScopeContainsParameter(rootMember, documentContent);
           if (parameterCheck.isParameter && parameterCheck.type !== undefined) 
           {
             rootType = functions.AvailableTypes.find(t => t.name == parameterCheck.type);
@@ -107,13 +107,22 @@ export function activate(context: vscode.ExtensionContext)
           }
         }
       }
-
       if (rootType == null || rootType == undefined) return undefined;
+      if (memberAccessParts.length - 1 == 1) return functions.GetCompletionSuggestionsForType(rootType);
 
-      //TODO: Jetzt ist der Typ des 1. MemberAccess in der Kette bekannt
-      //Nun mit einer Schleife von links nach rechts auflösen
+      //Resolve the member access from left to right, starting with the root
+      let currentType: Type = rootType;
+      let currentMemberName: string = rootMember;
+      for (let i = 1; i < memberAccessParts.length - 1; i++)
+      {
+        let nextMemberName =  memberAccessParts[i];
+        if(nextMemberName.includes("(")) nextMemberName = nextMemberName.substring(0, nextMemberName.indexOf('('));
+        currentMemberName = currentType.members.find(x => x.name == nextMemberName).name;
+        currentType = functions.AvailableTypes.find(t => t.name == currentMemberName);
+      }
 
-      return undefined;
+      if (currentType == undefined || currentType == null) return undefined;
+      return functions.GetCompletionSuggestionsForType(currentType);
     }
   }, '.');
 

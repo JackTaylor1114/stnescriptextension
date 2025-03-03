@@ -1,15 +1,16 @@
 
 import { Type, Member, Param, MemberFunction } from './definitions';
-import * as data from './resources/objectexplorer.json'
 import * as vscode from 'vscode';
 
 export let AvailableTypes: Array<Type> = [];
 
 /**
  * Read types from JSON file and store them
+ * @param jsonPath the relative path to the object explorer JSON data
  */
-export function LoadAvailableTypes(): void
+export async function LoadAvailableTypes(jsonPath: string): Promise<void>
 {
+  const data = await import(jsonPath);
   AvailableTypes = [];
   for (let type of data.types)
   {
@@ -102,6 +103,55 @@ export function CheckIfScopeContainsParameter(token: string, scopeText: string):
   return { isParameter: false };
 }
 
+/**
+ * Provides members of a Type as completion suggestions 
+ * @param type the relevant type
+ * @returns an array of completion suggestion items
+ */
+export function GetCompletionSuggestionsForType(type: Type): Array<vscode.CompletionItem>
+{
+  //Ge trough all members of the type
+  let completionSuggestions: Array<vscode.CompletionItem> = [];
+  for (let member of type.members)
+  {
+    let completionSuggestion: vscode.CompletionItem = null;
+    switch (member.memberFunction)
+    {
+      //The member is an attribute - add the attribute name and its type to the results
+      case MemberFunction.Property:
+      case MemberFunction.Field:
+        completionSuggestion = new vscode.CompletionItem(member.name, vscode.CompletionItemKind.Property);
+        completionSuggestion.detail = member.name + ": " + member.type;
+        break;
+
+      //The member is a method - add the name, parameters and type to the results
+      case MemberFunction.Method:
+      case MemberFunction.Constructor:
+        completionSuggestion = new vscode.CompletionItem(member.name, vscode.CompletionItemKind.Method);
+        completionSuggestion.detail = member.name + "(";
+
+        //If the method has any parameters, add them to the item
+        if (member.params.length > 0)
+        {
+          for (let param of member.params) completionSuggestion.detail = completionSuggestion.detail + param.name + ": " + param.type + ",";
+          completionSuggestion.detail = completionSuggestion.detail.slice(0, -1);
+        }
+        completionSuggestion.detail = completionSuggestion.detail + ")";
+        break;
+
+      default:
+        continue;
+    }
+
+    //If the member is static, add "(static)" to its description
+    if (member.isStatic) completionSuggestion.detail = completionSuggestion.detail + " (static)";
+
+    completionSuggestions.push(completionSuggestion)
+  }
+
+  return completionSuggestions;
+}
+
 
 /**
  * Get all known types as completion items
@@ -111,54 +161,5 @@ export function GetAllTypesAsCompletionItems(): Array<vscode.CompletionItem>
 {
   let items: Array<vscode.CompletionItem> = [];
   for (let type of AvailableTypes) items.push(new vscode.CompletionItem(type.name, vscode.CompletionItemKind.Class))
-  return items;
-}
-
-/**
- * Get all known members of a type as completion suggestions
- * @param type the type of which completion suggestions are needed
- * @returns an array of completion items
- */
-export function GetCompletionItemsForType(type: Type): Array<vscode.CompletionItem>
-{
-  //Go trough all known members of the type
-  let items: Array<vscode.CompletionItem> = [];
-  for (let member of type.members)
-  {
-    let item: vscode.CompletionItem;
-    switch (member.memberFunction)
-    {
-      //The member is an attribute, add the attribute name and its type to the results
-      case MemberFunction.Property:
-      case MemberFunction.Field:
-        item = new vscode.CompletionItem(member.name, vscode.CompletionItemKind.Property);
-        item.detail = member.name + ":" + member.type;
-        break;
-
-      //The member is a method, add the name, parameters and type to the results
-      case MemberFunction.Method:
-      case MemberFunction.Constructor:
-        item = new vscode.CompletionItem(member.name, vscode.CompletionItemKind.Method);
-        item.detail = member.name + "(";
-
-        //If the method has any parameters, add them to the item
-        if (member.params.length > 0)
-        {
-          for (let param of member.params) item.detail = item.detail + param.name + ":" + param.type + ",";
-          item.detail = item.detail.slice(0, -1);
-        }
-        item.detail = item.detail + ")";
-        break;
-
-      default:
-        continue;
-    }
-
-    //If the member is static, add "(static)" to its description
-    if (member.isStatic) item.detail = item.detail + " (static)";
-
-    items.push(item)
-  }
-
   return items;
 }

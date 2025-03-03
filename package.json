@@ -76,7 +76,8 @@
         }
     },
     "scripts": {
-        "build": "tsc -p .",
+        "build": "npm run clean && tsc -p .",
+        "clean": "rmdir /S /Q build",
         "compile": "tsc -p .",
         "pretest": "tsc -p .",
         "test": "vscode-test"

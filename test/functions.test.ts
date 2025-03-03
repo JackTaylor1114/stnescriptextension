@@ -2,6 +2,18 @@ import * as functions from '../src/functions';
 import assert from 'assert';
 
 /**********************************************************/
+suite('Unit Tests for LoadAvailableTypes', () => 
+{
+  test('01: TODO', function (done)
+  {
+    let jsonPath = "";
+    functions.LoadAvailableTypes('../test/resources/objectexplorer.test.json');
+    assert.equal(functions.AvailableTypes[0].name, "MyClassA");
+    done();
+  })
+});
+
+/**********************************************************/
 suite('Unit Tests for GetMemberAccessFromLineOfCode', () => 
 {
   test('01: empty input', function (done)
