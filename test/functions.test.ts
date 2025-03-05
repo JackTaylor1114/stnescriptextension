@@ -4,10 +4,10 @@ import assert from 'assert';
 /**********************************************************/
 suite('Unit Tests for LoadAvailableTypes', () => 
 {
-  test('01: TODO', function (done)
+  test('01: TODO', async function (done)
   {
     let jsonPath = "";
-    functions.LoadAvailableTypes('../test/resources/objectexplorer.test.json');
+    await functions.LoadAvailableTypes('', 'build/test/resources/objectexplorer.json');
     assert.equal(functions.AvailableTypes[0].name, "MyClassA");
     done();
   })

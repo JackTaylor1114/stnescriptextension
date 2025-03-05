@@ -15,7 +15,7 @@ let beautify_js = require('js-beautify');
 export function activate(context: vscode.ExtensionContext)
 {
   //Read the available types that will be used for completion suggestions
-  functions.LoadAvailableTypes('./resources/objectexplorer.json');
+  functions.LoadAvailableTypes(context.extensionPath, 'build/src/resources/objectexplorer.json');
 
   //Register provider for Document Formatting
   vscode.languages.registerDocumentFormattingEditProvider(SCRIPT_LANGUAGE, {

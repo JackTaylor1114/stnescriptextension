@@ -1,6 +1,8 @@
 
 import { Type, Member, Param, MemberFunction } from './definitions';
 import * as vscode from 'vscode';
+import * as path from 'path';
+import * as fs from 'fs';
 
 export let AvailableTypes: Array<Type> = [];
 
@@ -8,11 +10,12 @@ export let AvailableTypes: Array<Type> = [];
  * Read types from JSON file and store them
  * @param jsonPath the relative path to the object explorer JSON data
  */
-export async function LoadAvailableTypes(jsonPath: string): Promise<void>
+export async function LoadAvailableTypes(extensionRootPath: string, jsonPath: string): Promise<void>
 {
-  const data = await import(jsonPath);
+  let filepath = path.join(extensionRootPath, jsonPath);
+  const data2 = JSON.parse(fs.readFileSync(filepath, 'utf8'));
   AvailableTypes = [];
-  for (let type of data.types)
+  for (let type of data2.types)
   {
     let members: Array<Member> = [];
     for (let member of type.members)
