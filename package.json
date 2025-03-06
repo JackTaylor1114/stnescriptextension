@@ -80,7 +80,7 @@
         "clean": "rimraf ./build",
         "compile": "tsc -p .",
         "pretest": "tsc -p .",
-        "test": "vscode-test"
+        "test": "npm run build && vscode-test"
     },
     "devDependencies": {
         "@types/node": "*",

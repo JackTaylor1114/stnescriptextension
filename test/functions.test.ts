@@ -4,11 +4,20 @@ import assert from 'assert';
 /**********************************************************/
 suite('Unit Tests for LoadAvailableTypes', () => 
 {
-  test('01: TODO', function (done)
+  test('01: empty input', function (done)
   {
-    let jsonPath = "";
-    functions.LoadAvailableTypes('', __dirname + '/resources/objectexplorer.test.json');
+    functions.LoadAvailableTypes('');
+    assert.equal(functions.AvailableTypes.length, 0);
+    done();
+  })
+
+  test('02: loading types', function (done)
+  {
+    functions.LoadAvailableTypes(__dirname + '/resources/objectexplorer.test.json');
+    assert.equal(functions.AvailableTypes.length, 2);
     assert.equal(functions.AvailableTypes[0].name, "MyClassA");
+    assert.equal(functions.AvailableTypes[0].members[0].name, "PropertyA1");
+    assert.equal(functions.AvailableTypes[0].members[1].params[0].name, "param1");
     done();
   })
 });
@@ -94,7 +103,7 @@ suite('Unit Tests for CheckIfDocumentContainsFunction', () =>
     done();
   })
 
-  test('02: existing function with return type', function (done)
+  test('04: existing function with return type', function (done)
   {
     let document = "Function test() As Integer { doSomething(); }";
     let token = "test";
@@ -145,7 +154,7 @@ suite('Unit Tests for CheckIfScopeContainsVariable', () =>
     done();
   })
 
-  test('03: existing variable but two times', function (done)
+  test('04: existing variable but two times', function (done)
   {
     let scopeText = "//Comment" +
       "SomeRandomLineOfCode!%&/()=;" +

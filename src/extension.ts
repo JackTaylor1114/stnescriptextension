@@ -2,6 +2,7 @@
 
 //Imports
 import * as vscode from 'vscode';
+import * as path from 'path';
 import * as functions from './functions';
 import { Type } from './definitions';
 
@@ -15,7 +16,8 @@ let beautify_js = require('js-beautify');
 export function activate(context: vscode.ExtensionContext)
 {
   //Read the available types that will be used for completion suggestions
-  functions.LoadAvailableTypes(context.extensionPath, 'build/src/resources/objectexplorer.json');
+  let filepath = path.join(context.extensionPath, 'build/src/resources/objectexplorer.json');
+  functions.LoadAvailableTypes(filepath);
 
   //Register provider for Document Formatting
   vscode.languages.registerDocumentFormattingEditProvider(SCRIPT_LANGUAGE, {

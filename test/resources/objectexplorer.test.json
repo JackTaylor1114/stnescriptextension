@@ -25,6 +25,18 @@
           ]
         }
       ]
+    },
+    {
+      "name": "MyClassB",
+      "members": [
+        {
+          "name": "PropertyB1",
+          "static": false,
+          "membertype": "Property",
+          "IsReadonly": true,
+          "type": "Type1"
+        }
+      ]
     }
   ]
 }
