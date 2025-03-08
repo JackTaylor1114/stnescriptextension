@@ -71,6 +71,37 @@ suite('Unit Tests for GetMemberAccessFromLineOfCode', () =>
 });
 
 /**********************************************************/
+suite('Unit Tests for CheckIfTokenIsFunction', () => 
+{
+  test('01: empty input', function (done)
+  {
+    let token = "";
+    let result = functions.CheckIfTokenIsFunction(token);
+    assert.equal(result.isFunction, false);
+    assert.equal(result.functionName, undefined);
+    done();
+  })
+
+  test('02: function without parameters', function (done)
+  {
+    let token = "myFunction()";
+    let result = functions.CheckIfTokenIsFunction(token);
+    assert.equal(result.isFunction, true);
+    assert.equal(result.functionName, "myFunction");
+    done();
+  })
+
+  test('03: function with parameters', function (done)
+  {
+    let token = "myFunction(param1 As type1, param2 As type2)";
+    let result = functions.CheckIfTokenIsFunction(token);
+    assert.equal(result.isFunction, true);
+    assert.equal(result.functionName, "myFunction");
+    done();
+  })
+});
+
+/**********************************************************/
 suite('Unit Tests for CheckIfDocumentContainsFunction', () => 
 {
   test('01: empty input', function (done)
@@ -123,6 +154,7 @@ suite('Unit Tests for CheckIfScopeContainsVariable', () =>
     let token = "";
     let result = functions.CheckIfScopeContainsVariable(token, scopeText);
     assert.equal(result.isVariable, false);
+    assert.equal(result.type, undefined);
     done();
   })
 
@@ -166,6 +198,85 @@ suite('Unit Tests for CheckIfScopeContainsVariable', () =>
     let result = functions.CheckIfScopeContainsVariable(token, scopeText);
     assert.equal(result.isVariable, true);
     assert.equal(result.type, "SomeClass");
+    done();
+  })
+});
+
+/**********************************************************/
+suite('Unit Tests for CheckIfScopeContainsParameter', () => 
+{
+  test('01: empty input', function (done)
+  {
+    let scopeText = "";
+    let token = "";
+    let result = functions.CheckIfScopeContainsParameter(token, scopeText);
+    assert.equal(result.isParameter, false);
+    done();
+  })
+
+  test('02: existing parameter', function (done)
+  {
+    let scopeText = "//Comment" +
+      "SomeRandomLineOfCode!%&/()=;" +
+      "Another!RandomLineOfCode!%&/()=;" +
+      "myFunction(myParameter As myType) {} " +
+      "if(YetAnother!RandomLineOfCode!%&/()=;";
+    let token = "myParameter";
+    let result = functions.CheckIfScopeContainsParameter(token, scopeText);
+    assert.equal(result.isParameter, true);
+    assert.equal(result.type, "myType");
+    done();
+  })
+
+  test('03: existing parameters', function (done)
+  {
+    let scopeText = "//Comment" +
+      "SomeRandomLineOfCode!%&/()=;" +
+      "Another!RandomLineOfCode!%&/()=;" +
+      "myFunction(myParameter1 As myType1, myParameter2 As myType2) {} " +
+      "if(YetAnother!RandomLineOfCode!%&/()=;";
+    let token = "myParameter2";
+    let result = functions.CheckIfScopeContainsParameter(token, scopeText);
+    assert.equal(result.isParameter, true);
+    assert.equal(result.type, "myType2");
+    done();
+  })
+
+  test('04: non-existing parameter', function (done)
+  {
+    let scopeText = "//Comment" +
+      "SomeRandomLineOfCode!%&/()=;" +
+      "Another!RandomLineOfCode!%&/()=;" +
+      "myFunction(myParameter1 As myType1, myParameter2 As myType2) {} " +
+      "if(YetAnother!RandomLineOfCode!%&/()=;";
+    let token = "myParameter3";
+    let result = functions.CheckIfScopeContainsParameter(token, scopeText);
+    assert.equal(result.isParameter, false);
+    assert.equal(result.type, undefined);
+    done();
+  })
+});
+
+/**********************************************************/
+suite('Unit Tests for GetCompletionSuggestionsForType', () => 
+{
+  test('01: completion suggestion for property', function (done)
+  {
+    functions.LoadAvailableTypes(__dirname + '/resources/objectexplorer.test.json');
+    let result = functions.GetCompletionSuggestionsForType(functions.AvailableTypes[0]);
+    assert.equal(result.length, 2);
+    assert.equal(result[0].label, "PropertyA1");
+    assert.equal(result[0].detail, "PropertyA1: Type1 (static)");
+    done();
+  })
+
+  test('02: completion suggestion for method', function (done)
+  {
+    functions.LoadAvailableTypes(__dirname + '/resources/objectexplorer.test.json');
+    let result = functions.GetCompletionSuggestionsForType(functions.AvailableTypes[0]);
+    assert.equal(result.length, 2);
+    assert.equal(result[1].label, "MethodA1");
+    assert.equal(result[1].detail, "MethodA1(param1 As Type3): Type2");
     done();
   })
 });

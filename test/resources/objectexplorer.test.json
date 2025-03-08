@@ -5,7 +5,7 @@
       "members": [
         {
           "name": "PropertyA1",
-          "static": false,
+          "static": true,
           "membertype": "Property",
           "IsReadonly": true,
           "type": "Type1"
@@ -14,7 +14,7 @@
           "name": "MethodA1",
           "static": false,
           "membertype": "Method",
-          "IsReadonly": true,
+          "IsReadonly": false,
           "type": "Type2",
           "params": [
             {
