@@ -145,7 +145,8 @@ export function GetCompletionSuggestionsForType(type: Type): Array<vscode.Comple
 
       //The member is a method - add the name, parameters and type to the results
       case MemberFunction.Method:
-      case MemberFunction.Constructor:
+        if(member.name == ".ctor")
+          break;
         completionSuggestion = new vscode.CompletionItem(member.name, vscode.CompletionItemKind.Method);
         completionSuggestion.detail = member.name + "(";
 
@@ -157,6 +158,9 @@ export function GetCompletionSuggestionsForType(type: Type): Array<vscode.Comple
         }
         completionSuggestion.detail = completionSuggestion.detail + "): " + member.type;
         break;
+      // ignore Constructors as .ctor is not usable
+      case MemberFunction.Constructor:
+        break;
 
       default:
         continue;
@@ -164,7 +168,6 @@ export function GetCompletionSuggestionsForType(type: Type): Array<vscode.Comple
 
     //If the member is static, add "(static)" to its description
     if (member.isStatic) completionSuggestion.detail = completionSuggestion.detail + " (static)";
-
     completionSuggestions.push(completionSuggestion)
   }
 
