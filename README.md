@@ -31,6 +31,11 @@ The extension provides completion suggestions when you code:
 You can insert code snippets such as `ForEach` or variable declarations when you type certain keywords: 
 ![Syntax Highlighting](https://raw.githubusercontent.com/JackTaylor1114/stnescriptextension/refs/heads/master/img/snippets.png)
 
+#### Code Snippets
+
+Files with `.stne` extension will have a special file icon in the explorer: 
+![File Icon](https://raw.githubusercontent.com/JackTaylor1114/stnescriptextension/refs/heads/master/img/fileicon.png)
+
 ## Installation
 
 * Option A: 
