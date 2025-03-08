@@ -1,4 +1,3 @@
-
 import { Type, Member, Param, MemberFunction } from './definitions';
 import * as vscode from 'vscode';
 import * as fs from 'fs';
@@ -55,6 +54,18 @@ export function GetMemberAccessFromLineOfCode(line: string): Array<string>
 }
 
 /**
+ * Check if a token is a function and get its name 
+ * @param token the code token to check
+ * @returns a flag if the token is a function and the function name if possible
+ */
+export function CheckIfTokenIsFunction(token: string): { isFunction: boolean; functionName?: string }
+{
+  let functionMatch = token.match(/^[a-zA-Z_$][a-zA-Z0-9_$]*\s*\([^)]*\)$/);
+  if (functionMatch != undefined) return { isFunction: true, functionName: functionMatch[0].substring(0, functionMatch[0].indexOf('(')) };
+  return { isFunction: false }
+}
+
+/**
  * Check if a function is present in the document and get its return type
  * @param token the name of the function
  * @param documentContent the text content of the script file
@@ -98,9 +109,16 @@ export function CheckIfScopeContainsVariable(token: string, scopeText: string): 
  * @param scopeText the text content of the current scope
  * @returns a flag if the parameter is present and its type if possible
  */
-export function CheckIfScopeContainsParameter(token: string, scopeText: string): { isParameter: boolean; type?: string }
-{
-  //TODO
+export function CheckIfScopeContainsParameter(token: string, scopeText: string): { isParameter: boolean; type?: string } {
+  const parameterRegex = new RegExp(`\\b(${token})\\s+As\\s+([a-zA-Z_$][a-zA-Z0-9_$]*)`, 'g');
+  let match: RegExpExecArray | null;
+  while ((match = parameterRegex.exec(scopeText)) !== null) {
+    const paramName = match[1];
+    const paramType = match[2];
+    if (paramName === token) {
+      return { isParameter: true, type: paramType };
+    }
+  }
   return { isParameter: false };
 }
 
@@ -134,10 +152,10 @@ export function GetCompletionSuggestionsForType(type: Type): Array<vscode.Comple
         //If the method has any parameters, add them to the item
         if (member.params.length > 0)
         {
-          for (let param of member.params) completionSuggestion.detail = completionSuggestion.detail + param.name + ": " + param.type + ",";
-          completionSuggestion.detail = completionSuggestion.detail.slice(0, -1);
+          for (let param of member.params) completionSuggestion.detail = completionSuggestion.detail + param.name + " As " + param.type + ", ";
+          completionSuggestion.detail = completionSuggestion.detail.slice(0, -2);
         }
-        completionSuggestion.detail = completionSuggestion.detail + ")";
+        completionSuggestion.detail = completionSuggestion.detail + "): " + member.type;
         break;
 
       default:

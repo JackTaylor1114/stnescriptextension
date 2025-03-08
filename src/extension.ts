@@ -67,13 +67,13 @@ export function activate(context: vscode.ExtensionContext)
       //There are 3 possibilities: the root could be a function call, a variable or a parameter
       let rootType: Type = null;
       let rootMember = memberAccessParts[0];
-      let functionMatch = rootMember.match(/^[a-zA-Z_$][a-zA-Z0-9_$]*\s*\([^)]*\)$/)
+      let functionTest = functions.CheckIfTokenIsFunction(rootMember);
 
       //Root is a function call
-      if (functionMatch)
+      if (functionTest.isFunction)
       {
         //Find the function in the document by its name and get the return type
-        let functionCheck = functions.CheckIfDocumentContainsFunction(functionMatch[0].substring(0, functionMatch[0].indexOf('(')), documentContent);
+        let functionCheck = functions.CheckIfDocumentContainsFunction(functionTest.functionName, documentContent);
         if (functionCheck.isFunction && functionCheck.returnType !== undefined)
         {
           rootType = functions.AvailableTypes.find(t => t.name == functionCheck.returnType);
@@ -114,12 +114,11 @@ export function activate(context: vscode.ExtensionContext)
 
       //Resolve the member access from left to right, starting with the root
       let currentType: Type = rootType;
-      let currentMemberName: string = rootMember;
       for (let i = 1; i < memberAccessParts.length - 1; i++)
       {
-        let nextMemberName =  memberAccessParts[i];
-        if(nextMemberName.includes("(")) nextMemberName = nextMemberName.substring(0, nextMemberName.indexOf('('));
-        currentMemberName = currentType.members.find(x => x.name == nextMemberName).name;
+        let nextMemberName = memberAccessParts[i];
+        if (nextMemberName.includes("(")) nextMemberName = nextMemberName.substring(0, nextMemberName.indexOf('('));
+        let currentMemberName = currentType.members.find(x => x.name == nextMemberName).type;
         currentType = functions.AvailableTypes.find(t => t.name == currentMemberName);
       }
 
