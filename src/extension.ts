@@ -56,10 +56,12 @@ export function activate(context: vscode.ExtensionContext)
       //Get the content of the current line up to the current position
       let documentContent = document.getText();
       let lineContent = document.lineAt(position).text.substring(0, position.character);
-      if (lineContent.slice(-1) != '.') return undefined;
+      let index_point = lineContent.lastIndexOf('.')
+      if (index_point == -1) return undefined;
+      let parseContent = lineContent.substring(0, index_point+1);
 
       //Get the member access typed in the current line
-      let memberAccessParts: string[] = functions.GetMemberAccessFromLineOfCode(lineContent);
+      let memberAccessParts: string[] = functions.GetMemberAccessFromLineOfCode(parseContent);
       if (memberAccessParts == undefined || memberAccessParts.length < 1) return undefined;
 
       //The member access needs to be resolved from start to finish (left to right)
