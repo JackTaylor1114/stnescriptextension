@@ -134,10 +134,10 @@ export function activate(context: vscode.ExtensionContext)
       //Get the text written between the space and and the last space in the line
       const linePrefix = document.lineAt(position).text.substr(0, position.character);
       let wordsOfLine = linePrefix.split(' ');
-      let word = wordsOfLine[wordsOfLine.length - 2];
+      let word = wordsOfLine[wordsOfLine.length - 2].toLowerCase();
 
       //Check if the last word was "New" or "As" 
-      if (word != "New" && word != "As") return undefined;
+      if (word != "new" && word != "as") return undefined;
 
       //Return the completition suggestions
       return functions.GetAllTypesAsCompletionItems();
