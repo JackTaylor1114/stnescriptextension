@@ -109,13 +109,16 @@ export function CheckIfScopeContainsVariable(token: string, scopeText: string): 
  * @param scopeText the text content of the current scope
  * @returns a flag if the parameter is present and its type if possible
  */
-export function CheckIfScopeContainsParameter(token: string, scopeText: string): { isParameter: boolean; type?: string } {
+export function CheckIfScopeContainsParameter(token: string, scopeText: string): { isParameter: boolean; type?: string }
+{
   const parameterRegex = new RegExp(`\\b(${token})\\s+[Aa]s\\s+([a-zA-Z_$][a-zA-Z0-9_$]*)`, 'g');
   let match: RegExpExecArray | null;
-  while ((match = parameterRegex.exec(scopeText)) !== null) {
+  while ((match = parameterRegex.exec(scopeText)) !== null)
+  {
     const paramName = match[1];
     const paramType = match[2];
-    if (paramName === token) {
+    if (paramName === token)
+    {
       return { isParameter: true, type: paramType };
     }
   }
@@ -145,8 +148,7 @@ export function GetCompletionSuggestionsForType(type: Type): Array<vscode.Comple
 
       //The member is a method - add the name, parameters and type to the results
       case MemberFunction.Method:
-        if(member.name == ".ctor")
-          break;
+        if (member.name == ".ctor") continue;
         completionSuggestion = new vscode.CompletionItem(member.name, vscode.CompletionItemKind.Method);
         completionSuggestion.detail = member.name + "(";
 
@@ -158,9 +160,9 @@ export function GetCompletionSuggestionsForType(type: Type): Array<vscode.Comple
         }
         completionSuggestion.detail = completionSuggestion.detail + "): " + member.type;
         break;
-      // ignore Constructors as .ctor is not usable
+      //Ignore Constructors as .ctor is not usable in STNE scripts
       case MemberFunction.Constructor:
-        break;
+        continue;
 
       default:
         continue;
