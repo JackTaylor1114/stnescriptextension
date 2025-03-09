@@ -58,7 +58,7 @@ export function activate(context: vscode.ExtensionContext)
       let lineContent = document.lineAt(position).text.substring(0, position.character);
       let index_point = lineContent.lastIndexOf('.')
       if (index_point == -1) return undefined;
-      let parseContent = lineContent.substring(0, index_point+1);
+      let parseContent = lineContent.substring(0, index_point + 1);
 
       //Get the member access typed in the current line
       let memberAccessParts: string[] = functions.GetMemberAccessFromLineOfCode(parseContent);
@@ -136,6 +136,7 @@ export function activate(context: vscode.ExtensionContext)
       //Get the text written between the space and and the last space in the line
       const linePrefix = document.lineAt(position).text.substr(0, position.character);
       let wordsOfLine = linePrefix.split(' ');
+      if (wordsOfLine.length < 2) return undefined;
       let word = wordsOfLine[wordsOfLine.length - 2].toLowerCase();
 
       //Check if the last word was "New" or "As" 
