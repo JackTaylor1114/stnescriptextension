@@ -73,7 +73,7 @@ export function CheckIfTokenIsFunction(token: string): { isFunction: boolean; fu
  */
 export function CheckIfDocumentContainsFunction(token: string, documentText: string): { isFunction: boolean; returnType?: string }
 {
-  const functionDefinitionRegex = /Function\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\([^)]*\)(?:\s+As\s+([a-zA-Z_$][a-zA-Z0-9_$]*))?/g;
+  const functionDefinitionRegex = /Function\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\([^)]*\)(?:\s+[Aa]s\s+([a-zA-Z_$][a-zA-Z0-9_$]*))?/g;
   let match: RegExpExecArray;
   while ((match = functionDefinitionRegex.exec(documentText)) !== null)
   {
@@ -95,7 +95,7 @@ export function CheckIfDocumentContainsFunction(token: string, documentText: str
  */
 export function CheckIfScopeContainsVariable(token: string, scopeText: string): { isVariable: boolean; type?: string }
 {
-  let match = scopeText.match("Var\\s(" + token + ")\\sAs\\s([Nn]ew\\s)?([a-zA-Z]*)");
+  let match = scopeText.match("[Vv]ar\\s(" + token + ")\\s[Aa]s\\s([Nn]ew\\s)?([a-zA-Z]*)");
 
   if (match == undefined || match == null) return { isVariable: false }; //No match found
   let name = match[3];
@@ -110,7 +110,7 @@ export function CheckIfScopeContainsVariable(token: string, scopeText: string): 
  * @returns a flag if the parameter is present and its type if possible
  */
 export function CheckIfScopeContainsParameter(token: string, scopeText: string): { isParameter: boolean; type?: string } {
-  const parameterRegex = new RegExp(`\\b(${token})\\s+As\\s+([a-zA-Z_$][a-zA-Z0-9_$]*)`, 'g');
+  const parameterRegex = new RegExp(`\\b(${token})\\s+[Aa]s\\s+([a-zA-Z_$][a-zA-Z0-9_$]*)`, 'g');
   let match: RegExpExecArray | null;
   while ((match = parameterRegex.exec(scopeText)) !== null) {
     const paramName = match[1];
