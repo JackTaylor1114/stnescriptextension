@@ -47,8 +47,8 @@ Files with `.stne` extension will have a special file icon in the explorer:
 
 ## Usage
 
-To use the extension, open a workspace in Visual Studio Code and create a text file with a `.stne` extension.\
-Visual Studio Code will automatically detect `STNE Script` as the programming language in this file. 
+To use the extension, open a workspace in VS Code and create a text file with a `.stne` extension.\
+VS Code will automatically detect `STNE Script` as the programming language in this file. 
 
 ℹ️ You can configure `brace style` and `indentation size` in **`File » Preferences » STNE Script Support`**
 
@@ -61,8 +61,8 @@ git clone https://github.com/JackTaylor1114/stnescriptextension.git
 npm install
 ```
 
-Test the extension by running the `Launch` script in Visual Studio Code.\
-The default launch configuration will `npm build` the project before launch.
+Run the extension by running the `Start` launch configuration in VS Code.\
+The default configuration will `npm build` the project before launch.
 
 ## Tests
 
@@ -70,3 +70,4 @@ To run unit tests for the project, use the following command:
 ```
 npm run test
 ```
+You can also run and debug tests with the `Run Tests` launch configuration.
