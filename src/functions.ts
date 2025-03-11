@@ -95,7 +95,7 @@ export function CheckIfDocumentContainsFunction(token: string, documentText: str
  */
 export function CheckIfScopeContainsVariable(token: string, scopeText: string): { isVariable: boolean; type?: string }
 {
-  let match = scopeText.match("[Vv]ar\\s(" + token + ")\\s[Aa]s\\s([Nn]ew\\s)?([a-zA-Z]*)");
+  let match = scopeText.match("[Vv]ar\\s(" + token + ")\\s[Aa]s\\s([Nn]ew\\s)?([a-zA-Z0-9]*)");
 
   if (match == undefined || match == null) return { isVariable: false }; //No match found
   let name = match[3];
