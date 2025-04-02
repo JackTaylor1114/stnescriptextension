@@ -4,6 +4,17 @@ import * as fs from 'fs';
 
 export let AvailableTypes: Array<Type> = [];
 
+function ReplaceTypeAliases(type_name:string): string { 
+  switch (type_name) {
+    case "Int16": return "Short";
+    case "Int32": return "Integer";
+    case "Int64": return "Long";
+    default:
+      break;
+  }
+  return type_name;
+}
+
 /**
  * Read types from JSON file and store them
  * @param jsonPath the relative path to the object explorer JSON data
@@ -20,11 +31,13 @@ export async function LoadAvailableTypes(jsonPath: string): Promise<void>
       let parameters: Array<Param> = [];
       if (!(member.params == undefined || member.params == null))
       {
-        for (let param of member.params) parameters.push(new Param(param.name, param.type));
+        for (let param of member.params) {
+          parameters.push(new Param(param.name, ReplaceTypeAliases(param.type)));
+        }
       }
-      members.push(new Member(member.name, <MemberFunction>member.membertype, parameters, member.type, member.static));
+      members.push(new Member(member.name, <MemberFunction>member.membertype, parameters, ReplaceTypeAliases(member.type), member.static));
     }
-    AvailableTypes.push(new Type(type.name, members));
+    AvailableTypes.push(new Type(ReplaceTypeAliases(type.name), members));
   }
 }
 
