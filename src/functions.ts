@@ -9,6 +9,7 @@ function ReplaceTypeAliases(type_name:string): string {
     case "Int16": return "Short";
     case "Int32": return "Integer";
     case "Int64": return "Long";
+    case "DateTime": return "Date";
     default:
       break;
   }
