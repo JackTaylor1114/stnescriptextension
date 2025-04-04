@@ -12,10 +12,10 @@
     "bugs": {
         "url": "https://github.com/JackTaylor1114/stnescriptextension/issues"
     },
-    "icon": "img/icon.png",
+    "icon": "icons/icon.png",
     "pricing": "Free",
     "engines": {
-        "vscode": "^1.52.0"
+        "vscode": "^1.74.0"
     },
     "categories": [
         "Programming Languages"
@@ -33,8 +33,8 @@
                 ],
                 "configuration": "./syntax/language-configuration.json",
                 "icon": {
-                    "light": "./img/stnescript_icon.svg",
-                    "dark": "./img/stnescript_icon.svg"
+                    "light": "./icons/stnescript_icon.svg",
+                    "dark": "./icons/stnescript_icon.svg"
                 }
             }
         ],
@@ -48,7 +48,7 @@
         "snippets": [
             {
                 "language": "stnescript-lang",
-                "path": "./src/resources/snippets.json"
+                "path": "./build/src/resources/snippets.json"
             }
         ],
         "configuration": {
