@@ -1,6 +1,6 @@
 ## 1.0.5
 
-* ...
+* Added file icon for .stne files
 
 ## 1.0.4
 

@@ -1,19 +1,31 @@
-//Launch the extension in a new window with the Extension Host
 {
     "version": "2.0.0",
     "configurations": [
         {
-            "name": "Launch",
+            //Launch the extension in a new window with the Extension Host
+            "name": "Start",
             "type": "extensionHost",
             "request": "launch",
+            "preLaunchTask": "npm", //Build before Launch
             "runtimeExecutable": "${execPath}",
             "args": [
                 "--extensionDevelopmentPath=${workspaceRoot}"
             ],
-            "stopOnEntry": false,
-            "sourceMaps": true,
-            "outDir": "${workspaceRoot}/build/src",
-            "preLaunchTask": "npm" //Build before Launch
+            "sourceMaps": true
+        },
+        {
+            "name": "Run Tests",
+            "type": "extensionHost",
+            "request": "launch",
+            "preLaunchTask": "npm", //Build before Launch
+            "runtimeExecutable": "${execPath}",
+            "args": [
+                "--extensionDevelopmentPath=${workspaceRoot}",
+                "--extensionTestsPath=${workspaceRoot}/build/test/testrunner"
+            ],
+            "outFiles": [
+                "${workspaceRoot}/test/**/*.js"
+            ]
         }
     ]
 }

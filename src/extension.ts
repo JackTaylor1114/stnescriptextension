@@ -2,7 +2,9 @@
 
 //Imports
 import * as vscode from 'vscode';
+import * as path from 'path';
 import * as functions from './functions';
+import { Type } from './definitions';
 
 const SCRIPT_LANGUAGE = 'stnescript-lang';
 const CONFIG_NAMESPACE = 'scriptSupportSTNE';
@@ -14,7 +16,8 @@ let beautify_js = require('js-beautify');
 export function activate(context: vscode.ExtensionContext)
 {
   //Read the available types that will be used for completion suggestions
-  functions.LoadAvailableTypes();
+  let filepath = path.join(context.extensionPath, 'build/src/resources/objectexplorer.json');
+  functions.LoadAvailableTypes(filepath);
 
   //Register provider for Document Formatting
   vscode.languages.registerDocumentFormattingEditProvider(SCRIPT_LANGUAGE, {
@@ -50,43 +53,79 @@ export function activate(context: vscode.ExtensionContext)
   vscode.languages.registerCompletionItemProvider(SCRIPT_LANGUAGE, {
     provideCompletionItems(document: vscode.TextDocument, position: vscode.Position)
     {
-      //Get the text written between the dot and and the last space in the line
-      let linePrefix = document.lineAt(position).text.substr(0, position.character);
-      let docText = document.getText();
+      //Get the content of the current line up to the current position
+      let documentContent = document.getText();
+      let lineContent = document.lineAt(position).text.substring(0, position.character);
+      let index_point = lineContent.lastIndexOf('.')
+      if (index_point == -1) return undefined;
+      let parseContent = lineContent.substring(0, index_point + 1);
 
-      //Split the current line by different chars and check for the shortest last word
-      let splitters = [' ', '(', '{', '.'];
-      let currentLastWord = "";
-      for (let splitter of splitters)
+      //Get the member access typed in the current line
+      let memberAccessParts: string[] = functions.GetMemberAccessFromLineOfCode(parseContent);
+      if (memberAccessParts == undefined || memberAccessParts.length < 1) return undefined;
+
+      //The member access needs to be resolved from start to finish (left to right)
+      //Check the first part of the member access (root) 
+      //There are 3 possibilities: the root could be a function call, a variable or a parameter
+      let rootType: Type = null;
+      let rootMember = memberAccessParts[0];
+      let functionTest = functions.CheckIfTokenIsFunction(rootMember);
+
+      //Root is a function call
+      if (functionTest.isFunction)
       {
-        let wordsOfLine = linePrefix.split(splitter);
-        if (wordsOfLine.length > 0)
+        //Find the function in the document by its name and get the return type
+        let functionCheck = functions.CheckIfDocumentContainsFunction(functionTest.functionName, documentContent);
+        if (functionCheck.isFunction && functionCheck.returnType !== undefined)
         {
-          //If the splitter is '.', use the second last word because '.' was just typed
-          let lastWord = "";
-          if (splitter == '.' && wordsOfLine.length > 1)
+          rootType = functions.AvailableTypes.find(t => t.name == functionCheck.returnType);
+        }
+        else
+        {
+          return undefined;
+        }
+      }
+      else
+      {
+        //If root is not a function, it could be a variable or parameter
+        //We cant distinguish between them just by the name or syntax
+        //Therefore we just have to "try" and find the reference somwhere in the document 
+
+        //TODO: Actually check only the current scope instead of the whole document content
+        let variableCheck = functions.CheckIfScopeContainsVariable(rootMember, documentContent);
+        if (variableCheck.isVariable && variableCheck.type !== undefined)
+        {
+          rootType = functions.AvailableTypes.find(t => t.name == variableCheck.type);
+        }
+        else
+        {
+          //TODO: Actually check only the current scope instead of the whole document content
+          let parameterCheck = functions.CheckIfScopeContainsParameter(rootMember, documentContent);
+          if (parameterCheck.isParameter && parameterCheck.type !== undefined) 
           {
-            lastWord = wordsOfLine[wordsOfLine.length - 2];
+            rootType = functions.AvailableTypes.find(t => t.name == parameterCheck.type);
           }
           else
           {
-            lastWord = wordsOfLine[wordsOfLine.length - 1];
-          }
-
-          //Remove the '.' from the end of the word and check if a shorter last word was found
-          if (splitter != '.')
-          {
-            lastWord = lastWord.slice(0, -1);
-          }
-          if (lastWord.length < currentLastWord.length || currentLastWord == "")
-          {
-            currentLastWord = lastWord;
+            return undefined;
           }
         }
       }
+      if (rootType == null || rootType == undefined) return undefined;
+      if (memberAccessParts.length - 1 == 1) return functions.GetCompletionSuggestionsForType(rootType);
 
-      //Return the completition suggestions
-      return functions.GetCompletitionItemsForType(functions.GetTypeForSuspectedVar(docText, currentLastWord));
+      //Resolve the member access from left to right, starting with the root
+      let currentType: Type = rootType;
+      for (let i = 1; i < memberAccessParts.length - 1; i++)
+      {
+        let nextMemberName = memberAccessParts[i];
+        if (nextMemberName.includes("(")) nextMemberName = nextMemberName.substring(0, nextMemberName.indexOf('('));
+        let currentMemberName = currentType.members.find(x => x.name == nextMemberName).type;
+        currentType = functions.AvailableTypes.find(t => t.name == currentMemberName);
+      }
+
+      if (currentType == undefined || currentType == null) return undefined;
+      return functions.GetCompletionSuggestionsForType(currentType);
     }
   }, '.');
 
@@ -97,13 +136,14 @@ export function activate(context: vscode.ExtensionContext)
       //Get the text written between the space and and the last space in the line
       const linePrefix = document.lineAt(position).text.substr(0, position.character);
       let wordsOfLine = linePrefix.split(' ');
-      let word = wordsOfLine[wordsOfLine.length - 2];
+      if (wordsOfLine.length < 2) return undefined;
+      let word = wordsOfLine[wordsOfLine.length - 2].toLowerCase();
 
       //Check if the last word was "New" or "As" 
-      if (word != "New" && word != "As") return undefined;
+      if (word != "new" && word != "as") return undefined;
 
       //Return the completition suggestions
-      return functions.GetTypeCompletitionItems();
+      return functions.GetAllTypesAsCompletionItems();
     }
   }, ' ');
 }

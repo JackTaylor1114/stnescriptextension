@@ -6,8 +6,16 @@
         "run",
         "build"
     ],
-    "isShellCommand": true,
-    "showOutput": "silent",
-    "isWatching": true,
+    "type": "shell",
+    "presentation": {
+        "echo": false,
+        "reveal": "silent",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true,
+        "close": true
+    },
+    "isBackground": true,
     "problemMatcher": "$tsc-watch"
 }
