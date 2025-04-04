@@ -1,0 +1,7 @@
+Language Grammer: 
+    Base Grammer: TypeScriptReact Grammar File
+    Link: https://github.com/Microsoft/TypeScript-TmLanguage/blob/master/TypeScriptReact.tmLanguage"
+
+Language Formatter: 
+    Formatter: js-beautify
+    Link: https://github.com/beautify-web/js-beautify

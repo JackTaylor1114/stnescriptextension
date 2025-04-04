@@ -1,6 +1,7 @@
 ## 1.0.5
 
 * Added file icon for .stne files
+* Support for completion suggestions on nested member access
 
 ## 1.0.4
 
