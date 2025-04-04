@@ -33,7 +33,7 @@ You can insert code snippets such as `ForEach` or variable declarations when you
 
 #### Code Snippets
 
-Files with `.stne` extension will have a special file icon in the explorer: 
+Files with `.stne` extension will have a special file icon in the explorer:\
 ![File Icon](https://raw.githubusercontent.com/JackTaylor1114/stnescriptextension/refs/heads/master/img/fileicon.png)
 
 ## Installation
@@ -47,7 +47,7 @@ Files with `.stne` extension will have a special file icon in the explorer:
 
 ## Usage
 
-To use the extension, open a workspace in VS Code and create a text file with a `.stne` extension.\
+To use the extension, open a workspace in VS Code and create a text file with an `.stne` extension.\
 VS Code will automatically detect `STNE Script` as the programming language in this file. 
 
 ℹ️ You can configure `brace style` and `indentation size` in **`File » Preferences » STNE Script Support`**
