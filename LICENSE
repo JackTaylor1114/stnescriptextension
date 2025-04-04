@@ -1,6 +1,6 @@
 Language Grammer: 
     Base Grammer: TypeScriptReact Grammar File
-    Link: https://github.com/Microsoft/TypeScript-TmLanguage/blob/master/TypeScriptReact.tmLanguage"
+    Link: https://github.com/Microsoft/TypeScript-TmLanguage/blob/master/TypeScriptReact.tmLanguage
 
 Language Formatter: 
     Formatter: js-beautify
