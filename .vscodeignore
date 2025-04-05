@@ -3,6 +3,8 @@
 
 #Keep
 !LICENSE
+!CHANGELOG.md
+!README.md
 !icons
 !syntax
 !snippets
