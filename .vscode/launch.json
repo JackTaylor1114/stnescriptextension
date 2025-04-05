@@ -18,7 +18,7 @@
       "name": "Run Tests",
       "type": "extensionHost",
       "request": "launch",
-      "preLaunchTask": "build", //Build before running tests
+      "preLaunchTask": "build", //Build with tsc before running tests
       "runtimeExecutable": "${execPath}",
       "args": [
         "--extensionDevelopmentPath=${workspaceRoot}",

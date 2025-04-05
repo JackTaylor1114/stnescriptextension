@@ -1,101 +1,101 @@
 {
-    "name": "stnescript-support",
-    "displayName": "STNE Script Support for Visual Studio Code",
-    "description": "Provides formatting, syntax highlighting and suggestions for .stne files",
-    "version": "1.0.5",
-    "publisher": "STNE",
-    "license": "MIT",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/JackTaylor1114/stnescriptextension.git"
-    },
-    "bugs": {
-        "url": "https://github.com/JackTaylor1114/stnescriptextension/issues"
-    },
-    "icon": "icons/icon.png",
-    "pricing": "Free",
-    "engines": {
-        "vscode": "^1.74.0"
-    },
-    "categories": [
-        "Programming Languages"
-    ],
-    "main": "./dist/extension",
-    "contributes": {
-        "languages": [
-            {
-                "id": "stnescript-lang",
-                "aliases": [
-                    "STNE Script"
-                ],
-                "extensions": [
-                    "stne"
-                ],
-                "configuration": "./syntax/language-configuration.json",
-                "icon": {
-                    "light": "./icons/stnescript_icon.svg",
-                    "dark": "./icons/stnescript_icon.svg"
-                }
-            }
+  "name": "stnescript-support",
+  "displayName": "STNE Script Support for Visual Studio Code",
+  "description": "Provides formatting, syntax highlighting and suggestions for .stne files",
+  "version": "1.0.5",
+  "publisher": "STNE",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JackTaylor1114/stnescriptextension.git"
+  },
+  "bugs": {
+    "url": "https://github.com/JackTaylor1114/stnescriptextension/issues"
+  },
+  "icon": "icons/icon.png",
+  "pricing": "Free",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "main": "./dist/extension",
+  "contributes": {
+    "languages": [
+      {
+        "id": "stnescript-lang",
+        "aliases": [
+          "STNE Script"
         ],
-        "grammars": [
-            {
-                "language": "stnescript-lang",
-                "scopeName": "source.stne",
-                "path": "./syntax/stnescript-lang.grammar.json"
-            }
+        "extensions": [
+          "stne"
         ],
-        "snippets": [
-            {
-                "language": "stnescript-lang",
-                "path": "./snippets/snippets.json"
-            }
-        ],
-        "configuration": {
-            "title": "STNE Script Support",
-            "properties": {
-                "scriptSupportSTNE.indentSize": {
-                    "type": "string",
-                    "enum": [
-                        "2",
-                        "4"
-                    ],
-                    "default": "2",
-                    "description": "Indentation Size"
-                },
-                "scriptSupportSTNE.braceStyle": {
-                    "type": "string",
-                    "enum": [
-                        "expand",
-                        "preserve-inline"
-                    ],
-                    "default": "expand",
-                    "description": "Style for opening braces"
-                }
-            }
+        "configuration": "./syntax/language-configuration.json",
+        "icon": {
+          "light": "./icons/stnescript_icon.svg",
+          "dark": "./icons/stnescript_icon.svg"
         }
-    },
-    "scripts": {
-        "clean": "rimraf ./build && rimraf ./dist",
-        "build": "npm run clean && tsc -p .",
-        "test": "npm run build && vscode-test",
-        "compile-webpack": "npm run clean && webpack --mode development",
-        "package": "npm run clean && webpack --mode production --devtool hidden-source-map",
-        "release": "npm run package && vsce package"
-    },
-    "devDependencies": {
-        "@types/node": "*",
-        "@types/vscode": "^1.52.0",
-        "@vscode/test-cli": "^0.0.10",
-        "@vscode/test-electron": "^2.4.1",
-        "path": "^0.12.7",
-        "rimraf": "^6.0.1",
-        "ts-loader": "^9.5.2",
-        "typescript": "^4.2.4",
-        "webpack": "^5.98.0",
-        "webpack-cli": "^6.0.1"
-    },
-    "dependencies": {
-        "js-beautify": "^1.13.5"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "stnescript-lang",
+        "scopeName": "source.stne",
+        "path": "./syntax/stnescript-lang.grammar.json"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "stnescript-lang",
+        "path": "./snippets/snippets.json"
+      }
+    ],
+    "configuration": {
+      "title": "STNE Script Support",
+      "properties": {
+        "scriptSupportSTNE.indentSize": {
+          "type": "string",
+          "enum": [
+            "2",
+            "4"
+          ],
+          "default": "2",
+          "description": "Indentation Size"
+        },
+        "scriptSupportSTNE.braceStyle": {
+          "type": "string",
+          "enum": [
+            "expand",
+            "preserve-inline"
+          ],
+          "default": "expand",
+          "description": "Style for opening braces"
+        }
+      }
     }
+  },
+  "scripts": {
+    "clean": "rimraf ./build && rimraf ./dist",
+    "build": "npm run clean && tsc -p .",
+    "test": "npm run build && vscode-test",
+    "compile-webpack": "npm run clean && webpack --mode development",
+    "package": "npm run clean && webpack --mode production --devtool hidden-source-map",
+    "release": "npm run package && vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "*",
+    "@types/vscode": "^1.52.0",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1",
+    "path": "^0.12.7",
+    "rimraf": "^6.0.1",
+    "ts-loader": "^9.5.2",
+    "typescript": "^4.2.4",
+    "webpack": "^5.98.0",
+    "webpack-cli": "^6.0.1"
+  },
+  "dependencies": {
+    "js-beautify": "^1.13.5"
+  }
 }
