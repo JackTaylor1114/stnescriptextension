@@ -80,7 +80,8 @@
         "build": "npm run clean && tsc -p .",
         "test": "npm run build && vscode-test",
         "compile-webpack": "npm run clean && webpack --mode development",
-        "package": "npm run clean && webpack --mode production --devtool hidden-source-map"
+        "package": "npm run clean && webpack --mode production --devtool hidden-source-map",
+        "release": "npm run package && vsce package"
     },
     "devDependencies": {
         "@types/node": "*",
