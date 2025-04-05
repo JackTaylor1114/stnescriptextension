@@ -3,7 +3,7 @@
 
 #Keep
 !LICENSE
-!build/src
-!node_modules
 !icons
 !syntax
+!snippets
+!dist

@@ -1,31 +1,32 @@
 {
-    "version": "2.0.0",
-    "configurations": [
-        {
-            //Launch the extension in a new window with the Extension Host
-            "name": "Start",
-            "type": "extensionHost",
-            "request": "launch",
-            "preLaunchTask": "npm", //Build before Launch
-            "runtimeExecutable": "${execPath}",
-            "args": [
-                "--extensionDevelopmentPath=${workspaceRoot}"
-            ],
-            "sourceMaps": true
-        },
-        {
-            "name": "Run Tests",
-            "type": "extensionHost",
-            "request": "launch",
-            "preLaunchTask": "npm", //Build before Launch
-            "runtimeExecutable": "${execPath}",
-            "args": [
-                "--extensionDevelopmentPath=${workspaceRoot}",
-                "--extensionTestsPath=${workspaceRoot}/build/test/testrunner"
-            ],
-            "outFiles": [
-                "${workspaceRoot}/test/**/*.js"
-            ]
-        }
-    ]
+  "version": "2.0.0",
+  "configurations": [
+    {
+      //Launch the extension in a new window with the Extension Host
+      "name": "Start",
+      "type": "extensionHost",
+      "request": "launch",
+      "preLaunchTask": "compile-webpack", //Compile with webpack before Launch
+      "runtimeExecutable": "${execPath}",
+      "args": [
+        "--extensionDevelopmentPath=${workspaceRoot}"
+      ],
+      "sourceMaps": true
+    },
+    {
+      //Launch the test runner to debug the unit tests
+      "name": "Run Tests",
+      "type": "extensionHost",
+      "request": "launch",
+      "preLaunchTask": "build", //Build before running tests
+      "runtimeExecutable": "${execPath}",
+      "args": [
+        "--extensionDevelopmentPath=${workspaceRoot}",
+        "--extensionTestsPath=${workspaceRoot}/build/test/testrunner"
+      ],
+      "outFiles": [
+        "${workspaceRoot}/test/**/*.js"
+      ]
+    }
+  ]
 }

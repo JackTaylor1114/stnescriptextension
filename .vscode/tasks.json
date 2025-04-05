@@ -1,13 +1,15 @@
-//Task to run "npm build"
 {
-    "version": "2.0.0",
-    "command": "npm",
-    "args": [
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "compile-webpack",
+      "command": "npm",
+      "args": [
         "run",
-        "build"
-    ],
-    "type": "shell",
-    "presentation": {
+        "compile-webpack"
+      ],
+      "type": "shell",
+      "presentation": {
         "echo": false,
         "reveal": "silent",
         "focus": false,
@@ -15,7 +17,29 @@
         "showReuseMessage": false,
         "clear": true,
         "close": true
+      },
+      "isBackground": true,
+      "problemMatcher": "$tsc-watch"
     },
-    "isBackground": true,
-    "problemMatcher": "$tsc-watch"
+    {
+      "label": "build",
+      "command": "npm",
+      "args": [
+        "run",
+        "build"
+      ],
+      "type": "shell",
+      "presentation": {
+        "echo": false,
+        "reveal": "silent",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true,
+        "close": true
+      },
+      "isBackground": true,
+      "problemMatcher": "$tsc-watch"
+    }
+  ]
 }

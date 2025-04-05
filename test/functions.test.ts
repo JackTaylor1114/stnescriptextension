@@ -2,27 +2,6 @@ import * as functions from '../src/functions';
 import assert from 'assert';
 
 /**********************************************************/
-suite('Unit Tests for LoadAvailableTypes', () => 
-{
-  test('01: empty input', function (done)
-  {
-    functions.LoadAvailableTypes('');
-    assert.equal(functions.AvailableTypes.length, 0);
-    done();
-  })
-
-  test('02: loading types', function (done)
-  {
-    functions.LoadAvailableTypes(__dirname + '/resources/objectexplorer.test.json');
-    assert.equal(functions.AvailableTypes.length, 2);
-    assert.equal(functions.AvailableTypes[0].name, "MyClassA");
-    assert.equal(functions.AvailableTypes[0].members[0].name, "PropertyA1");
-    assert.equal(functions.AvailableTypes[0].members[1].params[0].name, "param1");
-    done();
-  })
-});
-
-/**********************************************************/
 suite('Unit Tests for GetMemberAccessFromLineOfCode', () => 
 {
   test('01: empty input', function (done)
@@ -260,23 +239,23 @@ suite('Unit Tests for CheckIfScopeContainsParameter', () =>
 /**********************************************************/
 suite('Unit Tests for GetCompletionSuggestionsForType', () => 
 {
-  test('01: completion suggestion for property', function (done)
+  test('01: completion suggestion for method', function (done)
   {
-    functions.LoadAvailableTypes(__dirname + '/resources/objectexplorer.test.json');
+    functions.LoadAvailableTypes();
     let result = functions.GetCompletionSuggestionsForType(functions.AvailableTypes[0]);
-    assert.equal(result.length, 2);
-    assert.equal(result[0].label, "PropertyA1");
-    assert.equal(result[0].detail, "PropertyA1: Type1 (static)");
+    assert.equal(result.length, 16);
+    assert.equal(result[0].label, "GetEnumerator");
+    assert.equal(result[0].detail, "GetEnumerator(): void");
     done();
   })
 
-  test('02: completion suggestion for method', function (done)
+  test('02: completion suggestion for property', function (done)
   {
-    functions.LoadAvailableTypes(__dirname + '/resources/objectexplorer.test.json');
+    functions.LoadAvailableTypes();
     let result = functions.GetCompletionSuggestionsForType(functions.AvailableTypes[0]);
-    assert.equal(result.length, 2);
-    assert.equal(result[1].label, "MethodA1");
-    assert.equal(result[1].detail, "MethodA1(param1 As Type3): Type2");
+    assert.equal(result.length, 16);
+    assert.equal(result[1].label, "Count");
+    assert.equal(result[1].detail, "Count: Integer");
     done();
   })
 });

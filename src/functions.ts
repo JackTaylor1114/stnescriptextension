@@ -1,30 +1,32 @@
 import { Type, Member, Param, MemberFunction } from './definitions';
 import * as vscode from 'vscode';
-import * as fs from 'fs';
+import { objectexplorer } from './objectexplorer'
 
 export let AvailableTypes: Array<Type> = [];
 
-function ReplaceTypeAliases(type_name:string): string { 
-  switch (type_name) {
+/**
+ * Replace some types with aliases because they are exported with different names
+ * @param typeName the name of the type
+ */
+export function ReplaceTypeAliases(typeName: string): string
+{
+  switch (typeName)
+  {
     case "Int16": return "Short";
     case "Int32": return "Integer";
     case "Int64": return "Long";
     case "DateTime": return "Date";
-    default:
-      break;
+    default: return typeName;
   }
-  return type_name;
 }
 
 /**
- * Read types from JSON file and store them
- * @param jsonPath the relative path to the object explorer JSON data
+ * Read types from JSON and store them
  */
-export async function LoadAvailableTypes(jsonPath: string): Promise<void>
+export async function LoadAvailableTypes(): Promise<void>
 {
-  const data = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
   AvailableTypes = [];
-  for (let type of data.types)
+  for (let type of objectexplorer.types)
   {
     let members: Array<Member> = [];
     for (let member of type.members)
@@ -32,7 +34,8 @@ export async function LoadAvailableTypes(jsonPath: string): Promise<void>
       let parameters: Array<Param> = [];
       if (!(member.params == undefined || member.params == null))
       {
-        for (let param of member.params) {
+        for (let param of member.params)
+        {
           parameters.push(new Param(param.name, ReplaceTypeAliases(param.type)));
         }
       }

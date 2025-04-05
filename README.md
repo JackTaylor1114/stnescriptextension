@@ -61,13 +61,30 @@ git clone https://github.com/JackTaylor1114/stnescriptextension.git
 npm install
 ```
 
-Run the extension by running the `Start` launch configuration in VS Code.\
-The default configuration will `npm build` the project before launch.
+There are two possible ways to build the extension: 
+
+* `npm run build`
+  * This script will use `tsc` to compile the TypeScript code into JavaScript
+  * Output will be genereated in `/build`
+  * Non-minimized JavaScript versions of source and test files will be created
+  * Unit tests will run with this build, but it cannot be launched from VS Code
+
+* `npm run compile-webpack`
+  * This script will use `webpack` to compile a single JavaScript asset
+  * Output will be generated in `/dist` (ignoring all test files)  
+  * This version will be used when the extension is launched for debugging
+  * The production version is compiled with `npm run package`
+
+To debug the extension, use the `Start` launch configuration in VS Code.\
+The default configuration will `compile-webpack` the project before launch.
+
+The release artifact is created with `vsce package`.
 
 ## Tests
 
-To run unit tests for the project, use the following command:
-```
-npm run test
-```
-You can also run and debug tests with the `Run Tests` launch configuration.
+To run unit tests for the project, use the command `npm run test`.\
+Test results will be printed in the Terminal.
+
+You can also run the `Run Tests` launch configuration.\
+This allows you to debug the test files in `/build/test`.\
+Output from this test run will be printed in the Debug Console.
